@@ -82,19 +82,21 @@
             radioButtonShowTopics.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             radioButtonShowTopics.Location = new Point(283, 13);
             radioButtonShowTopics.Name = "radioButtonShowTopics";
-            radioButtonShowTopics.Size = new Size(252, 21);
+            radioButtonShowTopics.Size = new Size(263, 21);
             radioButtonShowTopics.TabIndex = 3;
-            radioButtonShowTopics.Text = "Number of events for current topics.";
+            radioButtonShowTopics.Text = "Number of events according infocode.";
             radioButtonShowTopics.UseVisualStyleBackColor = true;
             radioButtonShowTopics.CheckedChanged += radioButtonShowTopics_CheckedChanged;
             // 
             // listBoxShowTopics
             // 
             listBoxShowTopics.BackColor = SystemColors.Control;
+            listBoxShowTopics.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             listBoxShowTopics.FormattingEnabled = true;
+            listBoxShowTopics.Items.AddRange(new object[] { "0 = Information", "1 = Warning", "2 = Error" });
             listBoxShowTopics.Location = new Point(813, 43);
             listBoxShowTopics.Name = "listBoxShowTopics";
-            listBoxShowTopics.Size = new Size(250, 484);
+            listBoxShowTopics.Size = new Size(250, 480);
             listBoxShowTopics.TabIndex = 4;
             // 
             // FormViewgraph

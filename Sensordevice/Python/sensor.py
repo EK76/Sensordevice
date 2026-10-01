@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
-#from distro import info
 from gpiozero import LED
 import mysql.connector, sys, Adafruit_DHT, datetime, time
 from mysql.connector import Error
@@ -11,8 +10,6 @@ import RPi.GPIO as GPIO
 import board
 import adafruit_dht
 import atexit
-#import subprocess
-#import signal
 import os
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
@@ -38,12 +35,12 @@ def addmysqlrecord(temp, hum):
    print("Record inserted successfully into table weatherdata", temp, " ", hum)
    cursor.close()  
 
-def addmysqlrecord2(info):
+def addmysqlrecord2(info, code):
    cursor = connection.cursor()
-   query = "insert into loginfo(logtext) values (%s)"
-   cursor.execute(query, [info])
+   query = "insert into loginfo(logtext, infocode) values (%s, %s)"
+   cursor.execute(query, (info, code))
    connection.commit()   
-   print("Record inserted successfully into table weatherdata with info: ", (info))
+   print("Record inserted successfully into table loginfowith info: ", (info), " and code: ", (code))
    cursor.close()
 
 def deletemysqlrecords(limit):
@@ -86,7 +83,7 @@ try:
       cursor.close()
       print("You're connected to database: ", record)
       sleep(2)
-      addmysqlrecord2("Sensor device started.")
+      addmysqlrecord2("Sensor device started.",0)
       
       row1 = "Sensor device."
       row2 = "version 3.24."
@@ -110,10 +107,8 @@ try:
       counter = 0 
       counter2 = 0
       counter3 = 0
-      print("Delay: ", limit)
       while True:
          if checkSensor == True:
-           print(f"Counter: {counter}")
            now = datetime.datetime.now()
            showdate = now.strftime("%d.%m.%Y")
            showtime = now.strftime("%H:%M")
@@ -143,13 +138,13 @@ try:
              if counter3 == 0:
                greenled.off()
                redled.on()
-               addmysqlrecord2("Sensor malfunction.")
+               addmysqlrecord2("Sensor mailfunction.",2)
                row1 = showdate + "  " + showtime
                row2 = "Sensor device"
                row3 = "mailfunction"
                row4 = ""
                oledinfo(row1, row2, row3, row4)
-               print("Sensor malfunction.")
+               print("Sensor mailfunction.")
                counter3 =  1
                deletemysqlrecords(limit)
              print("Test!")

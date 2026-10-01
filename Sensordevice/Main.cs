@@ -648,7 +648,7 @@ namespace Sensordevice
             try
             {
                 password = Properties.Settings.Default.sshpass;
-                DialogResult dialogResult = MessageBox.Show("Are you sure to shutdown the device", "Ken's Sensor Device", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Are you sure to shutdown the device", "Sensor Device", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     using (var client = new SshClient(host, user, password))

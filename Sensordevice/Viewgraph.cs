@@ -74,7 +74,7 @@ namespace CameraDevice
             for (int index = 0; index < topicNumbers; index++)
             {
                 conn.Open();
-                checkString = "select count(*) from loginfo where logtext like '" + FormLogs.listTopics[index] + "%'";
+                checkString = "select count(*) from loginfo where infocode = '" + FormLogs.listTopics[index] + "';";
                 MySqlCommand command = new MySqlCommand(checkString, conn);
                 count = Convert.ToInt32(command.ExecuteScalar());
                 conn.Close();
@@ -84,15 +84,13 @@ namespace CameraDevice
 
             index = 0;
             index2 = 1;
-            listBoxShowTopics.Items.Clear();
+
             foreach (var addValue in topicCounts)
             {
                chartView.Series[0].Points.AddXY(index2, addValue);
                chartView.Series[0].Points[index].Label = addValue.ToString();
-                chartView.ChartAreas[0].AxisX.Interval = 1;
+               chartView.ChartAreas[0].AxisX.Interval = 1;
                chartView.Series[0].Points[index].AxisLabel = index2.ToString();
-
-               listBoxShowTopics.Items.Add(index2.ToString()+ ". " + FormLogs.listTopics[index].ToString());
                index++;
                index2++;
             }

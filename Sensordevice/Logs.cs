@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +23,7 @@ namespace CameraDevice
 
         string checkString, selectedItem, checkItem, compareString;
         int selectedTopic, counterItems = 0, indexItemm, countRows;
+        int infoCode, indexStatus;
         bool answer;
         public static List<string> listDates = new List<string>();
         public static List<string> listTopics = new List<string>();
@@ -34,6 +36,30 @@ namespace CameraDevice
             reader.Read();
             toolStripStatusLabelSelection.Text = textLog + reader["numbers"].ToString();
             conn.Close();
+        }
+
+        void logsColor(int infoCode, int indexStatus)
+        {
+            try
+            {
+                switch (infoCode)
+                {
+                    case 0:
+                        listViewLogs.Items[indexStatus].ForeColor = Color.Green;
+                        break;
+                    case 1:
+                        listViewLogs.Items[indexStatus].ForeColor = Color.Yellow;
+                        break;
+                    case 2:
+                        listViewLogs.Items[indexStatus].ForeColor = Color.Red;
+                        break;
+                }
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show(i.Message);
+
+            }
         }
 
         void showStatus()
@@ -51,9 +77,13 @@ namespace CameraDevice
                 Clipboard.SetText(checkString);
                 MySqlCommand command = new MySqlCommand(checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
+                indexStatus = 0;
                 while (reader.Read())
-                {
-                    listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                { 
+                    listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                    infoCode = reader.GetInt32("infocode");
+                    logsColor(infoCode, indexStatus);
+                    indexStatus++;
                 }
                 conn.Close();
             }
@@ -65,21 +95,21 @@ namespace CameraDevice
             try
             {
                 conn.Open();
-                checkString = "select distinct logtext as 'logtext' from loginfo;";
+                checkString = "select distinct infocode as 'infocode' from loginfo;";
                 Clipboard.SetText(checkString);
                 MySqlCommand command = new MySqlCommand(checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 comboBoxSelection.Items.Add("All items");
                 while (reader.Read())
                 {
-                    comboBoxSelection.Items.Add(reader.GetString("logtext").ToString());
-                    listTopics.Add(reader.GetString("logtext").ToString());
+                    comboBoxSelection.Items.Add(reader.GetInt32("infocode").ToString());
+                    listTopics.Add(reader.GetInt32("infocode").ToString());
                 }
                 conn.Close();
             }
             catch (Exception i)
             {
-                MessageBox.Show(i.Message);
+                MessageBox.Show("Error: " + i.Message);
             }
 
             try
@@ -105,34 +135,34 @@ namespace CameraDevice
             countLog("Total logs :", "select count(*) as 'numbers' from loginfo;");
             try
             {
-               conn.Open();
-               checkString = "select * from loginfo order by datecreated asc limit 1;";
-               MySqlCommand command2 = new MySqlCommand(checkString, conn);
-               MySqlDataReader reader2 = command2.ExecuteReader();
-               reader2.Read();
-               labelDateStart.Text = "Start date: " + reader2["datecreated"].ToString();
-               conn.Close();
+                conn.Open();
+                checkString = "select * from loginfo order by datecreated asc limit 1;";
+                MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
+                reader2.Read();
+                labelDateStart.Text = "Start date: " + reader2["datecreated"].ToString();
+                conn.Close();
             }
-            catch 
+            catch
             {
-               labelDateStart.Text = "Start date: ";
+                labelDateStart.Text = "Start date: ";
             }
 
-            try 
-            { 
-              conn.Open();
-              checkString = "select * from loginfo order by datecreated desc limit 1;";
-              MySqlCommand command3 = new MySqlCommand(checkString, conn);
-              MySqlDataReader reader3 = command3.ExecuteReader();
-              reader3.Read();
-              labelDateEnd.Text = "End date: " + reader3["datecreated"].ToString();
-              conn.Close();
+            try
+            {
+                conn.Open();
+                checkString = "select * from loginfo order by datecreated desc limit 1;";
+                MySqlCommand command3 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader3 = command3.ExecuteReader();
+                reader3.Read();
+                labelDateEnd.Text = "End date: " + reader3["datecreated"].ToString();
+                conn.Close();
             }
-            catch 
-            { 
+            catch
+            {
                 labelDateEnd.Text = "End date: ";
             }
-            
+
             comboBoxSelection.Text = "";
             comboBoxDate.Text = "";
         }
@@ -166,9 +196,13 @@ namespace CameraDevice
                     Clipboard.SetText(checkString);
                     MySqlCommand command = new MySqlCommand(checkString, conn);
                     MySqlDataReader reader = command.ExecuteReader();
+                    indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        infoCode = reader.GetInt32("infocode");
+                        logsColor(infoCode, indexStatus);
+                        indexStatus++;
                     }
                     conn.Close();
                 }
@@ -185,13 +219,17 @@ namespace CameraDevice
                 {
                     listViewLogs.Items.Clear();
                     conn.Open();
-                    checkString = "select * from loginfo where logtext like '" + comboBoxSelection.SelectedItem + "%'order by datecreated desc;";
+                    checkString = "select * from loginfo where infocode = '" + comboBoxSelection.SelectedItem + "'order by datecreated desc;";
                     Clipboard.SetText(checkString);
                     MySqlCommand command = new MySqlCommand(checkString, conn);
                     MySqlDataReader reader = command.ExecuteReader();
+                    indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        infoCode = reader.GetInt32("infocode");
+                        logsColor(infoCode, indexStatus);
+                        indexStatus++;
                     }
                     conn.Close();
                 }
@@ -199,7 +237,7 @@ namespace CameraDevice
                 {
                     MessageBox.Show(i.Message);
                 }
-                countLog("Numbers for selected item: ", "select count(*) as 'numbers' from loginfo where logtext like '" + comboBoxSelection.SelectedItem + "%';");
+                countLog("Numbers for selected item: ", "select count(*) as 'numbers' from loginfo where infocode = '" + comboBoxSelection.SelectedItem + "';");
                 selectedItem = comboBoxSelection.SelectedItem.ToString();
                 selectedTopic = 1;
                 deleteToolStripMenuItem.Enabled = true;
@@ -219,9 +257,13 @@ namespace CameraDevice
                     Clipboard.SetText(checkString);
                     MySqlCommand command = new MySqlCommand(checkString, conn);
                     MySqlDataReader reader = command.ExecuteReader();
+                    indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        infoCode = reader.GetInt32("infocode");
+                        logsColor(infoCode, indexStatus);
+                        indexStatus++;
                     }
                     conn.Close();
                 }
@@ -242,9 +284,13 @@ namespace CameraDevice
                     Clipboard.SetText(checkString);
                     MySqlCommand command = new MySqlCommand(checkString, conn);
                     MySqlDataReader reader = command.ExecuteReader();
+                    indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        infoCode = reader.GetInt32("infocode");
+                        logsColor(infoCode, indexStatus);
+                        indexStatus++;
                     }
                     conn.Close();
                 }
@@ -346,6 +392,11 @@ namespace CameraDevice
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void infoCodeStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("0 = Information \n1 = Warning \n2 = Error", "Sensor Device");
         }
     }
 }

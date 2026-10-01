@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             copyGraphsToolStripMenuItem = new ToolStripMenuItem();
@@ -317,23 +317,23 @@
             // 
             // chartTemp
             // 
-            chartArea5.AxisY.Minimum = 1D;
-            chartArea5.Name = "ChartArea1";
-            chartTemp.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            chartTemp.Legends.Add(legend5);
+            chartArea1.AxisY.Minimum = 1D;
+            chartArea1.Name = "ChartArea1";
+            chartTemp.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chartTemp.Legends.Add(legend1);
             chartTemp.Location = new Point(12, 27);
             chartTemp.Name = "chartTemp";
-            series5.BorderWidth = 2;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Color = Color.Black;
-            series5.Legend = "Legend1";
-            series5.MarkerColor = Color.Black;
-            series5.MarkerSize = 10;
-            series5.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series5.Name = "Series1";
-            chartTemp.Series.Add(series5);
+            series1.BorderWidth = 2;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Color = Color.Black;
+            series1.Legend = "Legend1";
+            series1.MarkerColor = Color.Black;
+            series1.MarkerSize = 10;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series1.Name = "Series1";
+            chartTemp.Series.Add(series1);
             chartTemp.Size = new Size(1248, 1100);
             chartTemp.TabIndex = 2;
             chartTemp.Text = "chart1";
@@ -341,22 +341,22 @@
             // 
             // chartHum
             // 
-            chartArea6.Name = "ChartArea1";
-            chartHum.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            chartHum.Legends.Add(legend6);
+            chartArea2.Name = "ChartArea1";
+            chartHum.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            chartHum.Legends.Add(legend2);
             chartHum.Location = new Point(1293, 27);
             chartHum.Name = "chartHum";
-            series6.BorderWidth = 2;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Color = Color.Black;
-            series6.Legend = "Legend1";
-            series6.MarkerColor = Color.Black;
-            series6.MarkerSize = 10;
-            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series6.Name = "Series1";
-            chartHum.Series.Add(series6);
+            series2.BorderWidth = 2;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = Color.Black;
+            series2.Legend = "Legend1";
+            series2.MarkerColor = Color.Black;
+            series2.MarkerSize = 10;
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series2.Name = "Series1";
+            chartHum.Series.Add(series2);
             chartHum.Size = new Size(1248, 1100);
             chartHum.TabIndex = 3;
             chartHum.Text = "chart2";
@@ -402,7 +402,7 @@
             MinimizeBox = false;
             Name = "FormGraph";
             ShowIcon = false;
-            Text = "Ken's Sensor Device";
+            Text = "Sensor Device";
             Load += FormGraph_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

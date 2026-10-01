@@ -30,6 +30,7 @@
         {
             listViewLogs = new ListView();
             columnHeader1 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             labelText = new Label();
             comboBoxSelection = new ComboBox();
@@ -47,17 +48,18 @@
             graphToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabelSelection = new ToolStripStatusLabel();
+            infoCodeStatusToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // listViewLogs
             // 
-            listViewLogs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            listViewLogs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader3, columnHeader2 });
             listViewLogs.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            listViewLogs.Location = new Point(11, 84);
+            listViewLogs.Location = new Point(12, 84);
             listViewLogs.Name = "listViewLogs";
-            listViewLogs.Size = new Size(583, 658);
+            listViewLogs.Size = new Size(643, 658);
             listViewLogs.TabIndex = 1;
             listViewLogs.UseCompatibleStateImageBehavior = false;
             listViewLogs.View = View.Details;
@@ -65,12 +67,17 @@
             // columnHeader1
             // 
             columnHeader1.Text = "Log";
-            columnHeader1.Width = 380;
+            columnHeader1.Width = 410;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Info code";
+            columnHeader3.Width = 70;
             // 
             // columnHeader2
             // 
             columnHeader2.Text = "Date";
-            columnHeader2.Width = 120;
+            columnHeader2.Width = 150;
             // 
             // labelText
             // 
@@ -85,16 +92,16 @@
             // comboBoxSelection
             // 
             comboBoxSelection.FormattingEnabled = true;
-            comboBoxSelection.Location = new Point(151, 52);
+            comboBoxSelection.Location = new Point(93, 52);
             comboBoxSelection.Name = "comboBoxSelection";
-            comboBoxSelection.Size = new Size(205, 23);
+            comboBoxSelection.Size = new Size(79, 23);
             comboBoxSelection.TabIndex = 4;
             comboBoxSelection.SelectedIndexChanged += comboBoxSelection_SelectedIndexChanged;
             // 
             // comboBoxDate
             // 
             comboBoxDate.FormattingEnabled = true;
-            comboBoxDate.Location = new Point(391, 52);
+            comboBoxDate.Location = new Point(208, 52);
             comboBoxDate.Name = "comboBoxDate";
             comboBoxDate.Size = new Size(121, 23);
             comboBoxDate.TabIndex = 6;
@@ -125,7 +132,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(606, 24);
+            menuStrip1.Size = new Size(667, 24);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -176,7 +183,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { graphToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { graphToolStripMenuItem, infoCodeStatusToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new Size(44, 20);
             viewToolStripMenuItem.Text = "View";
@@ -184,7 +191,7 @@
             // graphToolStripMenuItem
             // 
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(106, 22);
+            graphToolStripMenuItem.Size = new Size(180, 22);
             graphToolStripMenuItem.Text = "Graph";
             graphToolStripMenuItem.Click += graphToolStripMenuItem_Click;
             // 
@@ -193,7 +200,7 @@
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelSelection });
             statusStrip1.Location = new Point(0, 745);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(606, 22);
+            statusStrip1.Size = new Size(667, 22);
             statusStrip1.TabIndex = 0;
             statusStrip1.ItemClicked += statusStrip1_ItemClicked;
             // 
@@ -203,11 +210,18 @@
             toolStripStatusLabelSelection.Size = new Size(118, 17);
             toolStripStatusLabelSelection.Text = "toolStripStatusLabel1";
             // 
+            // infoCodeStatusToolStripMenuItem
+            // 
+            infoCodeStatusToolStripMenuItem.Name = "infoCodeStatusToolStripMenuItem";
+            infoCodeStatusToolStripMenuItem.Size = new Size(180, 22);
+            infoCodeStatusToolStripMenuItem.Text = "Info Code Status";
+            infoCodeStatusToolStripMenuItem.Click += infoCodeStatusToolStripMenuItem_Click;
+            // 
             // FormLogs
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(606, 767);
+            ClientSize = new Size(667, 767);
             Controls.Add(statusStrip1);
             Controls.Add(labelDateEnd);
             Controls.Add(labelDateStart);
@@ -253,5 +267,7 @@
         private ToolStripMenuItem graphToolStripMenuItem;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabelSelection;
+        private ColumnHeader columnHeader3;
+        private ToolStripMenuItem infoCodeStatusToolStripMenuItem;
     }
 }
