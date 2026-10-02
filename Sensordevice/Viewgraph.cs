@@ -91,6 +91,18 @@ namespace CameraDevice
                chartView.Series[0].Points[index].Label = addValue.ToString();
                chartView.ChartAreas[0].AxisX.Interval = 1;
                chartView.Series[0].Points[index].AxisLabel = index2.ToString();
+               if (index == 0)
+               {
+                  chartView.Series[0].Points[index].Color = Color.Green;
+               }
+               if (index == 1)
+               {
+                  chartView.Series[0].Points[index].Color = Color.Yellow;
+               }
+                if (index == 2)
+               {
+                  chartView.Series[0].Points[index].Color = Color.Red;
+               }
                index++;
                index2++;
             }

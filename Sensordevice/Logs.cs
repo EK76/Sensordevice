@@ -79,8 +79,8 @@ namespace CameraDevice
                 MySqlDataReader reader = command.ExecuteReader();
                 indexStatus = 0;
                 while (reader.Read())
-                { 
-                    listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                {
+                    listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetString("comment").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                     infoCode = reader.GetInt32("infocode");
                     logsColor(infoCode, indexStatus);
                     indexStatus++;
@@ -95,7 +95,7 @@ namespace CameraDevice
             try
             {
                 conn.Open();
-                checkString = "select distinct infocode as 'infocode' from loginfo;";
+                checkString = "select distinct infocode as 'infocode' from loginfo order by infocode;";
                 Clipboard.SetText(checkString);
                 MySqlCommand command = new MySqlCommand(checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -199,7 +199,7 @@ namespace CameraDevice
                     indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetString("comment").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                         infoCode = reader.GetInt32("infocode");
                         logsColor(infoCode, indexStatus);
                         indexStatus++;
@@ -226,7 +226,7 @@ namespace CameraDevice
                     indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetString("comment").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                         infoCode = reader.GetInt32("infocode");
                         logsColor(infoCode, indexStatus);
                         indexStatus++;
@@ -260,7 +260,7 @@ namespace CameraDevice
                     indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetString("comment").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                         infoCode = reader.GetInt32("infocode");
                         logsColor(infoCode, indexStatus);
                         indexStatus++;
@@ -287,7 +287,7 @@ namespace CameraDevice
                     indexStatus = 0;
                     while (reader.Read())
                     {
-                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                        listViewLogs.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetString("comment").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                         infoCode = reader.GetInt32("infocode");
                         logsColor(infoCode, indexStatus);
                         indexStatus++;

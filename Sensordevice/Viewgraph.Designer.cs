@@ -93,7 +93,7 @@
             listBoxShowTopics.BackColor = SystemColors.Control;
             listBoxShowTopics.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             listBoxShowTopics.FormattingEnabled = true;
-            listBoxShowTopics.Items.AddRange(new object[] { "0 = Information", "1 = Warning", "2 = Error" });
+            listBoxShowTopics.Items.AddRange(new object[] { "1 = Information", "2 = Warning", "3 = Error" });
             listBoxShowTopics.Location = new Point(813, 43);
             listBoxShowTopics.Name = "listBoxShowTopics";
             listBoxShowTopics.Size = new Size(250, 480);
@@ -114,7 +114,7 @@
             MinimizeBox = false;
             Name = "FormViewgraph";
             ShowIcon = false;
-            Text = "Camera Device";
+            Text = "Sensor Device";
             Load += Viewgraph_Load;
             ((System.ComponentModel.ISupportInitialize)chartView).EndInit();
             ResumeLayout(false);

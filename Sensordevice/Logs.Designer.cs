@@ -31,6 +31,7 @@
             listViewLogs = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
+            columnHeader4 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             labelText = new Label();
             comboBoxSelection = new ComboBox();
@@ -46,20 +47,21 @@
             boldTextToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
             graphToolStripMenuItem = new ToolStripMenuItem();
+            infoCodeStatusToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabelSelection = new ToolStripStatusLabel();
-            infoCodeStatusToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // listViewLogs
             // 
-            listViewLogs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader3, columnHeader2 });
-            listViewLogs.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            listViewLogs.BackColor = SystemColors.InactiveCaption;
+            listViewLogs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader3, columnHeader4, columnHeader2 });
+            listViewLogs.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             listViewLogs.Location = new Point(12, 84);
             listViewLogs.Name = "listViewLogs";
-            listViewLogs.Size = new Size(643, 658);
+            listViewLogs.Size = new Size(1024, 658);
             listViewLogs.TabIndex = 1;
             listViewLogs.UseCompatibleStateImageBehavior = false;
             listViewLogs.View = View.Details;
@@ -72,7 +74,12 @@
             // columnHeader3
             // 
             columnHeader3.Text = "Info code";
-            columnHeader3.Width = 70;
+            columnHeader3.Width = 90;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "Comment";
+            columnHeader4.Width = 380;
             // 
             // columnHeader2
             // 
@@ -132,7 +139,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(667, 24);
+            menuStrip1.Size = new Size(1048, 24);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -191,16 +198,23 @@
             // graphToolStripMenuItem
             // 
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(180, 22);
+            graphToolStripMenuItem.Size = new Size(161, 22);
             graphToolStripMenuItem.Text = "Graph";
             graphToolStripMenuItem.Click += graphToolStripMenuItem_Click;
+            // 
+            // infoCodeStatusToolStripMenuItem
+            // 
+            infoCodeStatusToolStripMenuItem.Name = "infoCodeStatusToolStripMenuItem";
+            infoCodeStatusToolStripMenuItem.Size = new Size(161, 22);
+            infoCodeStatusToolStripMenuItem.Text = "Info Code Status";
+            infoCodeStatusToolStripMenuItem.Click += infoCodeStatusToolStripMenuItem_Click;
             // 
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelSelection });
             statusStrip1.Location = new Point(0, 745);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(667, 22);
+            statusStrip1.Size = new Size(1048, 22);
             statusStrip1.TabIndex = 0;
             statusStrip1.ItemClicked += statusStrip1_ItemClicked;
             // 
@@ -210,18 +224,11 @@
             toolStripStatusLabelSelection.Size = new Size(118, 17);
             toolStripStatusLabelSelection.Text = "toolStripStatusLabel1";
             // 
-            // infoCodeStatusToolStripMenuItem
-            // 
-            infoCodeStatusToolStripMenuItem.Name = "infoCodeStatusToolStripMenuItem";
-            infoCodeStatusToolStripMenuItem.Size = new Size(180, 22);
-            infoCodeStatusToolStripMenuItem.Text = "Info Code Status";
-            infoCodeStatusToolStripMenuItem.Click += infoCodeStatusToolStripMenuItem_Click;
-            // 
             // FormLogs
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(667, 767);
+            ClientSize = new Size(1048, 767);
             Controls.Add(statusStrip1);
             Controls.Add(labelDateEnd);
             Controls.Add(labelDateStart);
@@ -269,5 +276,6 @@
         private ToolStripStatusLabel toolStripStatusLabelSelection;
         private ColumnHeader columnHeader3;
         private ToolStripMenuItem infoCodeStatusToolStripMenuItem;
+        private ColumnHeader columnHeader4;
     }
 }

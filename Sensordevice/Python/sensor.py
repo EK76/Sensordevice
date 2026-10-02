@@ -35,10 +35,10 @@ def addmysqlrecord(temp, hum):
    print("Record inserted successfully into table weatherdata", temp, " ", hum)
    cursor.close()  
 
-def addmysqlrecord2(info, code):
+def addmysqlrecord2(info, code, sensorError):
    cursor = connection.cursor()
-   query = "insert into loginfo(logtext, infocode) values (%s, %s)"
-   cursor.execute(query, (info, code))
+   query = "insert into loginfo(logtext, infocode, comment) values (%s, %s, %s)"
+   cursor.execute(query, (info, code, sensorError))
    connection.commit()   
    print("Record inserted successfully into table loginfowith info: ", (info), " and code: ", (code))
    cursor.close()
@@ -83,7 +83,7 @@ try:
       cursor.close()
       print("You're connected to database: ", record)
       sleep(2)
-      addmysqlrecord2("Sensor device started.",0)
+      addmysqlrecord2("Sensor device started.",0,"")
       
       row1 = "Sensor device."
       row2 = "version 3.24."
@@ -117,6 +117,7 @@ try:
                greenled.on()
                redled.off()
                try:
+                  sensorError = ""
                   temperature = sensor.temperature
                   humidity = sensor.humidity
                   temperature=(round(temperature,2))
@@ -132,21 +133,23 @@ try:
                      addmysqlrecord(temperature, humidity)
                      counter = 0
                   counter2 = 0 
-               except RuntimeError as error:    
+               except RuntimeError as sensorError:    
+                  sensorError = str(sensorError)
+                  print(f"Sensor error: {sensorError}")
+                  addmysqlrecord2("Sensor mailfunction.",2, sensorError)
+                  row1 = showdate + "  " + showtime
+                  row2 = "Sensor device"
+                  row3 = "mailfunction"
+                  row4 = ""
+                  oledinfo(row1, row2, row3, row4)
+                  print("Sensor mailfunction.")
+                  deletemysqlrecords(limit)
                   checkSensor = False          
          else:
              if counter3 == 0:
                greenled.off()
                redled.on()
-               addmysqlrecord2("Sensor mailfunction.",2)
-               row1 = showdate + "  " + showtime
-               row2 = "Sensor device"
-               row3 = "mailfunction"
-               row4 = ""
-               oledinfo(row1, row2, row3, row4)
-               print("Sensor mailfunction.")
                counter3 =  1
-               deletemysqlrecords(limit)
              print("Test!")
 
          allow = False
