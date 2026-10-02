@@ -153,7 +153,7 @@ These setting are modified with the Visual Studio C# project. The Visual Studio 
 I have created a service which I have named sensordevice.service that when one or more of these changes are changed, it restarts the python program.
 ```
 [Unit]
-Description=Enable/disable sensor data storing.
+Description=Enable/disable sensor device.
 After=multi-user.target
 
 [Service]
