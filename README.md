@@ -142,8 +142,10 @@ primary key(id)
 );
 
 create table loginfo(
-id int not null auto_increment,,
+id int not null auto_increment,
 logtext varchar(250),
+infocode varchar(250),
+comment varchar(250),
 datecreated datetime default (current_timestamp),
 primary key(id)
 );
