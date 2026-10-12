@@ -52,10 +52,11 @@
             logNumberToolStripMenuItem = new ToolStripMenuItem();
             logNumberToolStripComboBox = new ToolStripComboBox();
             clearDatabaseToolStripMenuItem = new ToolStripMenuItem();
-            shutdownDeviceToolStripMenuItem = new ToolStripMenuItem();
+            modifyTableToolStripMenuItem = new ToolStripMenuItem();
             controlDeviceToolStripMenuItem = new ToolStripMenuItem();
             controlDeviceToolStripMenuItem2 = new ToolStripMenuItem();
             restartDeviceToolStripMenuItem = new ToolStripMenuItem();
+            shutdownDeviceToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
             graphToolStripMenuItem = new ToolStripMenuItem();
             fontSizeToolStripMenuItem = new ToolStripMenuItem();
@@ -73,14 +74,15 @@
             dateTimePickerEndDate = new DateTimePicker();
             labelDateStart = new Label();
             labelEndDate = new Label();
-            statusStrip1 = new StatusStrip();
+            buttonSearch = new Button();
+            fontDialog1 = new FontDialog();
+            buttonSetDate = new Button();
             toolStripStatusLabelRows = new ToolStripStatusLabel();
             toolStripStatusLabelLocation = new ToolStripStatusLabel();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
-            buttonSearch = new Button();
-            fontDialog1 = new FontDialog();
-            buttonSetDate = new Button();
+            toolStripStatusLabel3 = new ToolStripStatusLabel();
+            statusStrip1 = new StatusStrip();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -184,7 +186,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restoreDatabaseToolStripMenuItem, backupDatabaseToolStripMenuItem, toolStripSeparator1, setDelayToolStripMenuItem, logNumberToolStripMenuItem, clearDatabaseToolStripMenuItem, shutdownDeviceToolStripMenuItem, controlDeviceToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restoreDatabaseToolStripMenuItem, backupDatabaseToolStripMenuItem, toolStripSeparator1, setDelayToolStripMenuItem, logNumberToolStripMenuItem, clearDatabaseToolStripMenuItem, modifyTableToolStripMenuItem, controlDeviceToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -193,27 +195,27 @@
             // restoreDatabaseToolStripMenuItem
             // 
             restoreDatabaseToolStripMenuItem.Name = "restoreDatabaseToolStripMenuItem";
-            restoreDatabaseToolStripMenuItem.Size = new Size(166, 22);
+            restoreDatabaseToolStripMenuItem.Size = new Size(180, 22);
             restoreDatabaseToolStripMenuItem.Text = "Restore Database";
             restoreDatabaseToolStripMenuItem.Click += restoreDatabaseToolStripMenuItem_Click_1;
             // 
             // backupDatabaseToolStripMenuItem
             // 
             backupDatabaseToolStripMenuItem.Name = "backupDatabaseToolStripMenuItem";
-            backupDatabaseToolStripMenuItem.Size = new Size(166, 22);
+            backupDatabaseToolStripMenuItem.Size = new Size(180, 22);
             backupDatabaseToolStripMenuItem.Text = "Backup Database";
             backupDatabaseToolStripMenuItem.Click += backupDatabaseToolStripMenuItem_Click_1;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(163, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // setDelayToolStripMenuItem
             // 
             setDelayToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { minutesToolStripMenuItem, hourToolStripMenuItem, hoursToolStripMenuItem });
             setDelayToolStripMenuItem.Name = "setDelayToolStripMenuItem";
-            setDelayToolStripMenuItem.Size = new Size(166, 22);
+            setDelayToolStripMenuItem.Size = new Size(180, 22);
             setDelayToolStripMenuItem.Text = "Set Delay Time";
             // 
             // minutesToolStripMenuItem
@@ -241,7 +243,7 @@
             // 
             logNumberToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { logNumberToolStripComboBox });
             logNumberToolStripMenuItem.Name = "logNumberToolStripMenuItem";
-            logNumberToolStripMenuItem.Size = new Size(166, 22);
+            logNumberToolStripMenuItem.Size = new Size(180, 22);
             logNumberToolStripMenuItem.Text = "Set Log Number";
             // 
             // logNumberToolStripComboBox
@@ -254,37 +256,44 @@
             // clearDatabaseToolStripMenuItem
             // 
             clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
-            clearDatabaseToolStripMenuItem.Size = new Size(166, 22);
+            clearDatabaseToolStripMenuItem.Size = new Size(180, 22);
             clearDatabaseToolStripMenuItem.Text = "ClearTable";
             clearDatabaseToolStripMenuItem.Click += clearDatabaseToolStripMenuItem_Click_1;
             // 
-            // shutdownDeviceToolStripMenuItem
+            // modifyTableToolStripMenuItem
             // 
-            shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
-            shutdownDeviceToolStripMenuItem.Size = new Size(166, 22);
-            shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
-            shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click;
+            modifyTableToolStripMenuItem.Name = "modifyTableToolStripMenuItem";
+            modifyTableToolStripMenuItem.Size = new Size(180, 22);
+            modifyTableToolStripMenuItem.Text = "Modify Table";
+            modifyTableToolStripMenuItem.Click += modifyTableToolStripMenuItem_Click;
             // 
             // controlDeviceToolStripMenuItem
             // 
-            controlDeviceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { controlDeviceToolStripMenuItem2, restartDeviceToolStripMenuItem });
+            controlDeviceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { controlDeviceToolStripMenuItem2, restartDeviceToolStripMenuItem, shutdownDeviceToolStripMenuItem });
             controlDeviceToolStripMenuItem.Name = "controlDeviceToolStripMenuItem";
-            controlDeviceToolStripMenuItem.Size = new Size(166, 22);
+            controlDeviceToolStripMenuItem.Size = new Size(180, 22);
             controlDeviceToolStripMenuItem.Text = "Control Device";
             // 
             // controlDeviceToolStripMenuItem2
             // 
             controlDeviceToolStripMenuItem2.Name = "controlDeviceToolStripMenuItem2";
-            controlDeviceToolStripMenuItem2.Size = new Size(148, 22);
+            controlDeviceToolStripMenuItem2.Size = new Size(166, 22);
             controlDeviceToolStripMenuItem2.Text = "Stop Device";
             controlDeviceToolStripMenuItem2.Click += stopToolStripMenuItem_Click;
             // 
             // restartDeviceToolStripMenuItem
             // 
             restartDeviceToolStripMenuItem.Name = "restartDeviceToolStripMenuItem";
-            restartDeviceToolStripMenuItem.Size = new Size(148, 22);
+            restartDeviceToolStripMenuItem.Size = new Size(166, 22);
             restartDeviceToolStripMenuItem.Text = "Restart Device";
             restartDeviceToolStripMenuItem.Click += restartDeviceToolStripMenuItem_Click;
+            // 
+            // shutdownDeviceToolStripMenuItem
+            // 
+            shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
+            shutdownDeviceToolStripMenuItem.Size = new Size(166, 22);
+            shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
+            shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click_1;
             // 
             // viewToolStripMenuItem
             // 
@@ -421,35 +430,6 @@
             labelEndDate.TabIndex = 5;
             labelEndDate.Text = "Select end date.";
             // 
-            // statusStrip1
-            // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelRows, toolStripStatusLabelLocation, toolStripStatusLabel1, toolStripStatusLabel2 });
-            statusStrip1.Location = new Point(0, 1089);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(907, 22);
-            statusStrip1.TabIndex = 6;
-            statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabelRows
-            // 
-            toolStripStatusLabelRows.Name = "toolStripStatusLabelRows";
-            toolStripStatusLabelRows.Size = new Size(0, 17);
-            // 
-            // toolStripStatusLabelLocation
-            // 
-            toolStripStatusLabelLocation.Name = "toolStripStatusLabelLocation";
-            toolStripStatusLabelLocation.Size = new Size(0, 17);
-            // 
-            // toolStripStatusLabel1
-            // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(0, 17);
-            // 
-            // toolStripStatusLabel2
-            // 
-            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            toolStripStatusLabel2.Size = new Size(0, 17);
-            // 
             // buttonSearch
             // 
             buttonSearch.Enabled = false;
@@ -472,6 +452,41 @@
             buttonSetDate.Text = "Today's date";
             buttonSetDate.UseVisualStyleBackColor = true;
             buttonSetDate.Click += buttonSetDate_Click;
+            // 
+            // toolStripStatusLabelRows
+            // 
+            toolStripStatusLabelRows.Name = "toolStripStatusLabelRows";
+            toolStripStatusLabelRows.Size = new Size(0, 17);
+            // 
+            // toolStripStatusLabelLocation
+            // 
+            toolStripStatusLabelLocation.Name = "toolStripStatusLabelLocation";
+            toolStripStatusLabelLocation.Size = new Size(0, 17);
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(0, 17);
+            // 
+            // toolStripStatusLabel2
+            // 
+            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            toolStripStatusLabel2.Size = new Size(0, 17);
+            // 
+            // toolStripStatusLabel3
+            // 
+            toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            toolStripStatusLabel3.Size = new Size(118, 17);
+            toolStripStatusLabel3.Text = "toolStripStatusLabel3";
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelRows, toolStripStatusLabelLocation, toolStripStatusLabel1, toolStripStatusLabel2, toolStripStatusLabel3 });
+            statusStrip1.Location = new Point(0, 1089);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(907, 22);
+            statusStrip1.TabIndex = 6;
+            statusStrip1.Text = "statusStrip1";
             // 
             // FormMain
             // 
@@ -519,15 +534,10 @@
         private DateTimePicker dateTimePickerEndDate;
         private Label labelDateStart;
         private Label labelEndDate;
-        private StatusStrip statusStrip1;
         private Button buttonSearch;
         private ColumnHeader columnHeaderTemp;
         private ColumnHeader columnHeaderHum;
         private ColumnHeader columnHeaderDate;
-        private ToolStripStatusLabel toolStripStatusLabelRows;
-        private ToolStripStatusLabel toolStripStatusLabelLocation;
-        private ToolStripStatusLabel toolStripStatusLabel1;
-        private ToolStripStatusLabel toolStripStatusLabel2;
         private ToolStripMenuItem fontSizeToolStripMenuItem;
         private ToolStripMenuItem smallToolStripMenuItem;
         private ToolStripMenuItem mediumToolStripMenuItem;
@@ -547,7 +557,6 @@
         public ToolStripMenuItem deleteRowsToolStripMenuItem;
         public ToolStripMenuItem clearDataToolStripMenuItem;
         public ToolStripMenuItem deleteRows2ToolStripMenuItem;
-        private ToolStripMenuItem shutdownDeviceToolStripMenuItem;
         private Button buttonSetDate;
         private ToolStripMenuItem setDelayToolStripMenuItem;
         private ToolStripMenuItem logsToolStripMenuItem;
@@ -559,5 +568,13 @@
         private ToolStripMenuItem controlDeviceToolStripMenuItem;
         private ToolStripMenuItem controlDeviceToolStripMenuItem2;
         private ToolStripMenuItem restartDeviceToolStripMenuItem;
+        private ToolStripMenuItem shutdownDeviceToolStripMenuItem;
+        private ToolStripMenuItem modifyTableToolStripMenuItem;
+        private ToolStripStatusLabel toolStripStatusLabelRows;
+        private ToolStripStatusLabel toolStripStatusLabelLocation;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel toolStripStatusLabel2;
+        private ToolStripStatusLabel toolStripStatusLabel3;
+        private StatusStrip statusStrip1;
     }
 }

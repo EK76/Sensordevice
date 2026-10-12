@@ -74,7 +74,7 @@ namespace Sensordevice
             reader.Read();
             conn.Close();
         }
-    
+
         private void rowDeletions(int number)
         {
 
@@ -110,9 +110,9 @@ namespace Sensordevice
             password = Properties.Settings.Default.sshpass;
             using (var client = new SshClient(host, user, password))
             {
-               client.Connect();
-               var output = client.RunCommand("sudo systemctl restart sensordevice");
-               client.Disconnect();
+                client.Connect();
+                var output = client.RunCommand("sudo systemctl restart sensordevice");
+                client.Disconnect();
             }
         }
 
@@ -394,10 +394,10 @@ namespace Sensordevice
             }
             conn.Close();
             logNumberToolStripComboBox.Text = rowsValue.ToString();
-            
+
             conn.Open();
             checkString = "select datecreated from sensorlog limit 1";
-            MySqlCommand command2= new MySqlCommand(checkString, conn);
+            MySqlCommand command2 = new MySqlCommand(checkString, conn);
             MySqlDataReader reader2 = command2.ExecuteReader();
             reader2.Read();
             firstDate = reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy");
@@ -645,25 +645,7 @@ namespace Sensordevice
 
         private void shutdownDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                password = Properties.Settings.Default.sshpass;
-                DialogResult dialogResult = MessageBox.Show("Are you sure to shutdown the device", "Sensor Device", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    using (var client = new SshClient(host, user, password))
-                    {
-                        client.Connect();
-                        var output = client.RunCommand("sudo shutdown now");
-                        client.Disconnect();
-                    }
-                    MessageBox.Show("Device is shutdown, wait a minute before disconnecting the power!");
-                }
-            }
-            catch (Exception i)
-            {
-                MessageBox.Show("Device is shutdown, wait a minute before disconnecting the power!");
-            }
+
         }
 
         private void buttonSetDate_Click(object sender, EventArgs e)
@@ -788,6 +770,35 @@ namespace Sensordevice
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             checkOnce = false;
+        }
+
+        private void shutdownDeviceToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                password = Properties.Settings.Default.sshpass;
+                DialogResult dialogResult = MessageBox.Show("Are you sure to shutdown the device", "Sensor Device", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    using (var client = new SshClient(host, user, password))
+                    {
+                        client.Connect();
+                        var output = client.RunCommand("sudo shutdown now");
+                        client.Disconnect();
+                    }
+                    MessageBox.Show("Device is shutdown, wait a minute before disconnecting the power!");
+                }
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show("Device is shutdown, wait a minute before disconnecting the power!");
+            }
+        }
+
+        private void modifyTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormModifyTable modifyTable = new FormModifyTable();
+            modifyTable.ShowDialog();
         }
     }
 }
