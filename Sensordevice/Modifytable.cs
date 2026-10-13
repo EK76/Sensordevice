@@ -125,13 +125,13 @@ namespace Sensordevice
 
         private void modifyRowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormModifyRow modifyRow = new FormModifyRow();
+            ModifyRow modifyRow = new ModifyRow();
             modifyRow.ShowDialog();
         }
 
         private void listViewTable_DoubleClick(object sender, EventArgs e)
         {
-            FormModifyRow modifyRow = new FormModifyRow();
+            ModifyRow modifyRow = new ModifyRow();
             modifyRow.ShowDialog();
         }
 

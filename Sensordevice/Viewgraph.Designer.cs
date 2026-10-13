@@ -61,6 +61,8 @@
             chartView.Size = new Size(795, 484);
             chartView.TabIndex = 1;
             chartView.Text = "chart1";
+            chartView.GetToolTipText += chartView_GetToolTipText;
+            chartView.Click += chartView_Click;
             // 
             // radioButtonShowDates
             // 

@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Sensordevice
 {
-    public partial class FormModifyRow : Form
+    public partial class ModifyRow : Form
     {
-        public FormModifyRow()
+        public ModifyRow()
         {
             InitializeComponent();
         }

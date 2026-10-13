@@ -1,6 +1,6 @@
 ﻿namespace Sensordevice
 {
-    partial class FormModifyRow
+    partial class ModifyRow
     {
         /// <summary>
         /// Required designer variable.
