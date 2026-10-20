@@ -1,34 +1,42 @@
 # Sensor Device
 
-The goal with this project was to build a simple weather application created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
-obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could move this device to any network of your choosing. Python was used for storing values 
-from DHT22 sensor to MySQL table. The Pyhton program is included to under the Pyhton folder within this project. It was also made possible to read the contents from the MySQL table trough a web browser. 
-For this I use the Apache version 2.4.66 as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie). I used python version 3.13.5 for this project.
+The goal of this project was to build a simple weather monitoring application using Visual Studio 2022 C#. The application reads temperature and humidity data from a MySQL database table. 
+These values are collected by a Raspberry Pi 5 using a DHT22 sensor and then stored in the database.
+Another objective of the project was to create a portable solution that could be deployed on any network of the user's choosing with minimal configuration.
 
-#### Requirements for the Visual Studio C# project.
+A Python application is responsible for reading the temperature and humidity values from the DHT22 sensor and storing them in the MySQL database. The Python source code is included in the Python folder 
+within this project. Python version 3.13.5 was used during the development of the project.
+
+In addition to the Visual Studio C# application, the stored sensor data can also be viewed through a web browser. To provide web access, Apache HTTP Server 2.4.66 was installed and configured on the Raspberry Pi 5.
+The Raspberry Pi 5 runs Debian GNU/Linux 13 (Trixie), which serves as the operating system for the weather monitoring system.
+
+#### Visual Studio C# project requirements
 - .NET 9.0
 -  C# language version 13.0
 
-The device can be connected to any network long as DCHP is enabled and with a wire connection.
-If you want to use Wifi instead of wire, you can use the scp command to transfer addwifi bash script to the device. 
-The addwifi script file is included with this project under System folder.
+The device can be connected to any network, provided that DHCP is enabled and a wired network connection is available. If you prefer to use a Wi-Fi connection instead of a wired connection, 
+you can use the SCP command to transfer the addwifi Bash script to the device. The addwifi script is included with this project in the System folder.
 
-Sensor Device application work only with computers that run under Windows 11 operating system. 
-But the web version can be run on all most common operating system (Windows, Linux, MacOS). In order to 
-use the webvserver version, you haft to also install also PHP besides Apache and MySQL on the device. PHP reads the results from MySQL table
-and display the contents to web browser trough the Apache webserver. PHP files are included with this project under HomePage folder.
-For my php script I used the PHP version. 8.4.16.
+The Sensor Device application is compatible only with computers running the Windows 11 operating system. However, the web-based version of the application can be accessed from most common operating systems, 
+including Windows, Linux, and macOS. To use the web-based version, you must install PHP in addition to Apache and MySQL on the device. PHP retrieves data from the MySQL database and displays it in a web browser 
+through the Apache web server. The PHP source files are included with this project in the HomePage folder.
+For this project, I used PHP 8.4.16.
 
-**Homepage folder's content.**
-- index.php -> Where the result of sensor data is shown from MySQL table.
-- files.php -> Where files are stored as cvs format with selected data exported from the MySQL table.
-- config.php -> Where the database configuration is stored.
-- style.css -> Where the design of the homepages is configured.
+**HomePage Folder Contents**
+- index.php
+The HomePage folder contains the PHP files and resources required for the web-based version of the application.
+- files.php
+Displays the temperature and humidity data retrieved from the MySQL database.
+- config.php
+Stores exported data from the MySQL database in CSV format.
+- style.css    
+Contains the database connection and configuration settings.
+  
+Defines the visual appearance and layout of the website.
+To display sensor data in graphical form, I used Google Charts, which provides a collection of interactive chart and graph components for web applications. Additional information can be found in Google Chart Gallery. [https://de...cs/gallery]
+In my setup, I assigned the hostname **sensordevice** to the Raspberry Pi 5. As a result, the web-based version of the application can be accessed from a web browser using the address http://sensordevice/, provided that hostname resolution is available on the network.
 
-To the show result as diagram I used [Google Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery).
-In my case I named my Raspberry PI 5 to sensordevice. It means in this case I can use the webbrowser version with this url, *http://sensordevice*.
-
-**List over the hardware for this project.**
+**Hardware used in this poject**
 - Raspberry Pi 5
 - DHT22 sensor
 - 16x2 display with I2C interface
@@ -42,8 +50,12 @@ An overview of the Rasperry PI 5 GPIO pins.
 ### Sensor DHT22.
 <img width="568" height="364" alt="dht22" src="https://github.com/user-attachments/assets/909912d9-66f4-4da3-a7a7-8a44d279c72f" />
 
-Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
-Operating voltage is 3.3V - 5.5V for the DHT 22 sensor.
+The DHT22 sensor operates with a supply voltage ranging from 3.3 V to 5.5 V, making it fully compatible with the Raspberry Pi 5.
+
+Connection Between the DHT22 Sensor and the Raspberry Pi 5
+- The VCC pin of the DHT22 sensor is connected to a 3.3 V or 5 V power pin on the Raspberry Pi 5.
+- The DATA pin of the DHT22 sensor is connected to GPIO 18 (Pin 12) on the Raspberry Pi 5.
+- The GND pin of the DHT22 sensor is connected to a ground (GND) pin on the Raspberry Pi 5.
 
 ### Installation of library for the Sensor DHT22.
 
@@ -65,7 +77,7 @@ Information about IIC protocol's function.
 - Each slave device has a unique address. The master calls this address so only the correct part listens.
 - Built-in acknowledgment bits tell the master if data arrived safely.
 
-The connection between Raspberry PI5 and the oled display.
+Connection between Raspberry PI5 and the oled display.
 
 - The oled display's SDA pin is connected to SDA pin (GPIO2) on the Raspberry Pi5.
 - The oled display's SCL pin is connected to SCL pin (GPIO3) on the Raspberry Pi5.
@@ -80,22 +92,23 @@ Before you can use this oled display, you must activate I2C.
 - Select Ok and then Finish to exit the configuration menu.
 - Reboot your Raspberry Pi 5 using sudo reboot for changes to take effect.
 
-### Installation of library for the oled display.
+### Library installation for the OLED display.
 
 #### Using pip (For other OS or virtual environments).
 ```
 sudo pip3 install luma.oled
 ```
 ### RGB Leds
-The RGB led consists of red and green color and woks as a indicator to show if something is failure.
+This project uses an RGB LED as a status indicator. In this implementation, only the red and green LEDs are used to indicate the current system status.
+- Green LED = System enabled and operating correctly.
+- Red LED = System disabled or an error/failure condition has occurred.
+The RGB LED provides a simple visual indication of the system's operational state without requiring access to the software interface.
 
-- Green color = enabled / working.
-- Red color = disabled / failure.
-
-The connection between Raspberry PI5 and the RGB led.
-
-- The RGB led (red version) is connected to GPIO17 on the Raspberry Pi5.
-- The RGB led (green version) is connected to GPIO27 on the Raspberry Pi5.
+Connection Between the Raspberry Pi 5 and the RGB LED
+The RGB LED is connected to the Raspberry Pi 5 as follows:
+- The red LED pin is connected to GPIO 17 on the Raspberry Pi 5.
+- The green LED pin is connected to GPIO 27 on the Raspberry Pi 5.
+- The ground (GND) pin of the RGB LED is connected to a ground pin on the Raspberry Pi 5.
 
 ### The installation of library for the RGB leds.
 
@@ -109,6 +122,8 @@ sudo apt install python3-gpiozero
 sudo pip3 install gpiozero
 ```
 The code for display and indicator led functions are found in the same pyhton script, where sensor device stores it's data to MySQL table.
+The RGB LED is used to provide immediate visual feedback regarding the system's status, making it easier to identify whether the application 
+is running correctly or if a failure has occurred.
 
 ### Database
 
@@ -119,7 +134,9 @@ This project contains of three mysql tables.
           **- delay = the intervall value between two readings.** <br/>
           **- numberofrows = how many rows can be stored in table logtext, keeping the most recent ones.**
 
-MySQL have been chosen as database language for this project. The MySQL version used in this project is 11.8.3-MariaDB.
+MySQL/MariaDB was selected as the database platform for this project because it provides reliable data storage, good performance, 
+and simple integration with Python, PHP, and Visual Studio C# applications.
+The database version used for this project is MariaDB 11.8.3.
 To create the tables, follow the instructions below.
 ```
 create database sensorinfo;
@@ -150,9 +167,12 @@ datecreated datetime default (current_timestamp),
 primary key(id)
 );
 ```
-You can also modify some settings with this project, which are stored in the settings table.
-These setting are modified with the Visual Studio C# project. The Visual Studio C# project works only with computers that run under Windows 11 operating system.
-I have created a service which I have named sensordevice.service that when one or more of these changes are changed, it restarts the python program.
+Several system settings can be modified through this project. These settings are stored in the settings table within the database and can be changed using the Visual Studio C# application.
+The Visual Studio C# application is designed to run on computers using the Windows 11 operating system.
+
+To ensure that configuration changes take effect automatically, a Linux service named **sensordevice.service** has been created. Whenever one or more settings are modified through the Visual Studio C# application, 
+the service automatically restarts the Python program and reloads the updated configuration.
+This approach eliminates the need for manual restarts and ensures that the latest configuration settings are applied immediately.
 ```
 [Unit]
 Description=Enable/disable sensor device.
@@ -169,17 +189,24 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 ```
-My mysql password is found in the /etc/controldevice/controldevice.conf file. You should always consider to hide sensative information, for example password. On way to achieve this is to use environment variables, as I have done.
+The MySQL password used by this project is stored in the /etc/controldevice/controldevice.conf configuration file.
+Sensitive information, such as passwords, API keys, tokens, and database credentials, should never be stored directly in source code. 
+A recommended approach is to use environment variables, which is the method used in this project.
 
-To use this sensoradevice service without typing sudo password from Visual Studio C# project, put this line at bottom of /etc/sudoers file with the help of sudo visudo
+The sensordevice.service service can be controlled from the Visual Studio C# application. To allow the application to manage the service without prompting for a sudo password
+put this line at bottom of /etc/sudoers file with the help of sudo visudo.
 ```
 %sudo   ALL=(ALL:ALL) ALL
 ```
-I have also installed two external plugins trough Visual Studio NuGet Package Manager when I developed this project. 
-- MySql.Data from Oracle Corporation. <br /> 
-  MySql.Data makes it easier to read from and make changes to MySQL database when using Visual Studio.
-- MySqlBackup.NET <br /> 
-  Backup and restore databases and tables from MySQL.
+During the development of this project, I installed two external packages through the Visual Studio NuGet Package Manager.
+
+- MySql.Data (Oracle Corporation)
+The MySql.Data package, developed by Oracle Corporation, provides a .NET data provider for MySQL databases.
+It enables the Visual Studio C# application to connect to a MySQL database, execute queries, retrieve data, and modify database records efficiently.
+
+- MySqlBackup.NET
+The MySqlBackup.NET package provides functionality for backing up and restoring MySQL databases and tables.
+It simplifies database maintenance by allowing database contents to be exported and restored directly from the Visual Studio C# application.
 
 **Two pictures of the application.**
 <img width="2880" height="1132" alt="sensorproject2" src="https://github.com/user-attachments/assets/332e3cc5-61dd-4804-81ce-cfdb99f49456" />
