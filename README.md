@@ -167,6 +167,14 @@ The Visual Studio C# application is designed to run on computers using the Windo
 To ensure that configuration changes take effect automatically, a Linux service named **sensordevice.service** has been created. Whenever one or more settings are modified through the Visual Studio C# application, 
 the service automatically restarts the Python program and reloads the updated configuration.
 This approach eliminates the need for manual restarts and ensures that the latest configuration settings are applied immediately.
+
+I have entered my database information (such as the host, database name, username, and password) into the application settings in Visual Studio C#. 
+I can then read this information using the following code in Visual Studio C#. 
+```
+connString = HomeAssistant.Properties.Settings.Default.Database;
+```
+For more information about application settings in Visual C#, see the following **[link](https://learn.microsoft.com/en-us/visualstudio/ide/managing-application-settings-dotnet?view=visualstudio)**. 
+
 ```
 [Unit]
 Description=Enable/disable sensor device.
