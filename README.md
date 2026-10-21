@@ -3,19 +3,17 @@
 The goal of this project was to build a simple weather monitoring application using Visual Studio 2022 C#. The application reads temperature and humidity data from a MySQL database table. 
 These values are collected by a Raspberry Pi 5 using a DHT22 sensor and then stored in the database.
 Another objective of the project was to create a portable solution that could be deployed on any network of the user's choosing with minimal configuration.
-
-A Python application is responsible for reading the temperature and humidity values from the DHT22 sensor and storing them in the MySQL database. The Python source code is included in the Python folder 
-within this project. Python version 3.13.5 was used during the development of the project.
+The Python source code is included in the Python folder within this project. Python version 3.13.5 was used during the development of the project.
 
 In addition to the Visual Studio C# application, the stored sensor data can also be viewed through a web browser. To provide web access, Apache HTTP Server 2.4.66 was installed and configured on the Raspberry Pi 5.
 The Raspberry Pi 5 runs Debian GNU/Linux 13 (Trixie), which serves as the operating system for the weather monitoring system.
 
-#### Visual Studio C# project requirements
+#### Visual Studio C# project requirements.
 - .NET 9.0
 -  C# language version 13.0
 
 The device can be connected to any network, provided that DHCP is enabled and a wired network connection is available. If you prefer to use a Wi-Fi connection instead of a wired connection, 
-you can use the SCP command to transfer the addwifi Bash script to the device. The addwifi script is included with this project in the System folder.
+you can use the SCP command to transfer the addwifi bash script to the device. The addwifi script is included with this project in the System folder.
 
 The Sensor Device application is compatible only with computers running the Windows 11 operating system. However, the web-based version of the application can be accessed from most common operating systems, 
 including Windows, Linux, and macOS. To use the web-based version, you must install PHP in addition to Apache and MySQL on the device. PHP retrieves data from the MySQL database and displays it in a web browser 
@@ -23,16 +21,14 @@ through the Apache web server. The PHP source files are included with this proje
 For this project, I used PHP 8.4.16.
 
 **HomePage Folder Contents**
-- index.php
-The HomePage folder contains the PHP files and resources required for the web-based version of the application.
-- files.php
-Displays the temperature and humidity data retrieved from the MySQL database.
-- config.php
-Stores exported data from the MySQL database in CSV format.
-- style.css    
-Contains the database connection and configuration settings.
-  
-Defines the visual appearance and layout of the website.
+
+The HomePage folder contains the PHP files and resources required for the web-based version of the application
+
+- index.php, displays the temperature and humidity data retrieved from the MySQL database.
+- files.php, stores exported data from the MySQL database in CSV format.
+- config.php, contains the database connection and configuration settings.
+- style.css, defines the visual appearance and layout of the website.
+
 To display sensor data in graphical form, I used Google Charts, which provides a collection of interactive chart and graph components for web applications. Additional information can be found in Google Chart Gallery. [https://de...cs/gallery]
 In my setup, I assigned the hostname **sensordevice** to the Raspberry Pi 5. As a result, the web-based version of the application can be accessed from a web browser using the address http://sensordevice/, provided that hostname resolution is available on the network.
 
@@ -84,7 +80,7 @@ Connection between Raspberry PI5 and the oled display.
 - The oled display's VCC pin is connected to 5V pin on the Raspberry Pi5.
 - The oled display's GND pin is connected to ground on the Raspberry Pi5.
 
-Before you can use this oled display, you must activate I2C.
+Before you can use this oled display with Raspberry PI 5, you must activate I2C.
 
 - Type sudo raspi-config and press Enter in a terminal window.
 - Use the arrow keys to select 3 Interface Options or 5 Interfacing Options (depending on your OS version) and press Enter.
@@ -102,9 +98,9 @@ sudo pip3 install luma.oled
 This project uses an RGB LED as a status indicator. In this implementation, only the red and green LEDs are used to indicate the current system status.
 - Green LED = System enabled and operating correctly.
 - Red LED = System disabled or an error/failure condition has occurred.
+
 The RGB LED provides a simple visual indication of the system's operational state without requiring access to the software interface.
 
-Connection Between the Raspberry Pi 5 and the RGB LED
 The RGB LED is connected to the Raspberry Pi 5 as follows:
 - The red LED pin is connected to GPIO 17 on the Raspberry Pi 5.
 - The green LED pin is connected to GPIO 27 on the Raspberry Pi 5.
@@ -122,8 +118,6 @@ sudo apt install python3-gpiozero
 sudo pip3 install gpiozero
 ```
 The code for display and indicator led functions are found in the same pyhton script, where sensor device stores it's data to MySQL table.
-The RGB LED is used to provide immediate visual feedback regarding the system's status, making it easier to identify whether the application 
-is running correctly or if a failure has occurred.
 
 ### Database
 
