@@ -202,7 +202,7 @@ put this line at bottom of /etc/sudoers file with the help of sudo visudo.
 ```
 
 I have also created two small Bash scripts on the Raspberry Pi 5 device, checkupdates.sh and updatesystem.sh.
-These scripts allow me to check for available updates and update the Raspberry Pi 5 remotely from a Visual Studio C# application via an SSH connection.
+These scripts allow me to check for available updates and update the Raspberry Pi 5 device's operating system remotely from a Visual Studio C# application via an SSH connection.
 These two Bash scripts can be found in the System folder of this GitHub project.
 - checkupdates.sh: This Bash script checks for available updates for the Raspberry Pi 5 operating system.
 - updatesystem.sh: This Bash script installs all available updates on the Raspberry Pi 5 operating system.
