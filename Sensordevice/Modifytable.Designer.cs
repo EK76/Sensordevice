@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
@@ -41,6 +42,9 @@
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            modifyRowToolStripMenuItem2 = new ToolStripMenuItem();
+            deleteRowsToolStripMenuItem2 = new ToolStripMenuItem();
             dateTimePickerStartDate = new DateTimePicker();
             dateTimePickerEndDate = new DateTimePicker();
             labelText1 = new Label();
@@ -48,6 +52,7 @@
             statusStrip1 = new StatusStrip();
             toolStripStatusLabelRows = new ToolStripStatusLabel();
             menuStrip1.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -85,7 +90,7 @@
             // 
             modifyRowToolStripMenuItem.Enabled = false;
             modifyRowToolStripMenuItem.Name = "modifyRowToolStripMenuItem";
-            modifyRowToolStripMenuItem.Size = new Size(180, 22);
+            modifyRowToolStripMenuItem.Size = new Size(135, 22);
             modifyRowToolStripMenuItem.Text = "Modify row";
             modifyRowToolStripMenuItem.Click += modifyRowToolStripMenuItem_Click;
             // 
@@ -93,7 +98,7 @@
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new Size(180, 22);
+            deleteRowsToolStripMenuItem.Size = new Size(135, 22);
             deleteRowsToolStripMenuItem.Text = "Delete rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -107,13 +112,14 @@
             // allItemsToolStripMenuItem
             // 
             allItemsToolStripMenuItem.Name = "allItemsToolStripMenuItem";
-            allItemsToolStripMenuItem.Size = new Size(120, 22);
+            allItemsToolStripMenuItem.Size = new Size(180, 22);
             allItemsToolStripMenuItem.Text = "All items";
             allItemsToolStripMenuItem.Click += allItemsToolStripMenuItem_Click;
             // 
             // listViewTable
             // 
             listViewTable.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            listViewTable.ContextMenuStrip = contextMenuStrip1;
             listViewTable.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             listViewTable.FullRowSelect = true;
             listViewTable.Location = new Point(12, 80);
@@ -124,6 +130,7 @@
             listViewTable.View = View.Details;
             listViewTable.Click += listViewTable_Click;
             listViewTable.DoubleClick += listViewTable_DoubleClick;
+            listViewTable.Leave += listViewTable_Leave;
             // 
             // columnHeader1
             // 
@@ -143,6 +150,29 @@
             // 
             columnHeader4.Text = "Date created";
             columnHeader4.Width = 160;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { modifyRowToolStripMenuItem2, deleteRowsToolStripMenuItem2 });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(136, 48);
+            contextMenuStrip1.Opening += contextMenuStrip1_Opening;
+            // 
+            // modifyRowToolStripMenuItem2
+            // 
+            modifyRowToolStripMenuItem2.Enabled = false;
+            modifyRowToolStripMenuItem2.Name = "modifyRowToolStripMenuItem2";
+            modifyRowToolStripMenuItem2.Size = new Size(135, 22);
+            modifyRowToolStripMenuItem2.Text = "Modify row";
+            modifyRowToolStripMenuItem2.Click += modifyRowToolStripMenuItem2_Click;
+            // 
+            // deleteRowsToolStripMenuItem2
+            // 
+            deleteRowsToolStripMenuItem2.Enabled = false;
+            deleteRowsToolStripMenuItem2.Name = "deleteRowsToolStripMenuItem2";
+            deleteRowsToolStripMenuItem2.Size = new Size(135, 22);
+            deleteRowsToolStripMenuItem2.Text = "Delete rows";
+            deleteRowsToolStripMenuItem2.Click += deleteRowsToolStripMenuItem2_Click;
             // 
             // dateTimePickerStartDate
             // 
@@ -220,6 +250,7 @@
             Load += Modifytable_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             ResumeLayout(false);
@@ -247,5 +278,8 @@
         private ColumnHeader columnHeader4;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabelRows;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem modifyRowToolStripMenuItem2;
+        private ToolStripMenuItem deleteRowsToolStripMenuItem2;
     }
 }

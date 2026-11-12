@@ -9,6 +9,7 @@ using MySqlX.XDevAPI;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using secInfo;
+using Syncfusion.DataSource;
 using System.Data;
 using System.Globalization;
 using System.Windows.Forms;
@@ -26,6 +27,10 @@ namespace Sensordevice
             InitializeComponent();
         }
 
+        private ListViewColumnSorter lvwColumnSorter;
+
+
+
         public static string firstItem, lastItem, checkString, connString;
         public static List<string> listTemp = new List<string>();
         public static List<string> listHum = new List<string>();
@@ -42,6 +47,7 @@ namespace Sensordevice
 
         string[] inputPass = File.ReadAllLines("input.txt");
 
+
         private void updateDelay(int delayValue, string logMessage)
         {
             MySqlConnection conn = new MySqlConnection(connString);
@@ -53,7 +59,7 @@ namespace Sensordevice
             conn.Close();
 
             conn.Open();
-            checkString = "insert into loginfo(logtext) values('Settings were updated for delay value.');";
+            checkString = "insert into loginfo(logtext, infocode, comment) values('Settings were updated for delay value.', '0', '');";
             Clipboard.SetText(checkString);
             MySqlCommand command2 = new MySqlCommand(checkString, conn);
             MySqlDataReader reader2 = command2.ExecuteReader();
@@ -272,7 +278,6 @@ namespace Sensordevice
         private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
         {
             dateTimePickerEndDate.MinDate = dateTimePickerStartDate.Value;
-            dateTimePickerEndDate.Enabled = true;
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
@@ -365,44 +370,51 @@ namespace Sensordevice
             DateTime currentDate2 = DateTime.ParseExact(currentDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             dateTimePickerStartDate.MaxDate = currentDate2;
             dateTimePickerEndDate.MaxDate = currentDate2;
-
-            MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            checkString = "select * from settings where id =1;";
-            MySqlCommand command = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
-            reader.Read();
-            rowsValue = reader.GetInt32("numberofrows");
-            delayValue = reader.GetInt32("delay");
-            switch (delayValue)
+            try
             {
-                case 1800:
-                    minutesToolStripMenuItem.Checked = true;
-                    hourToolStripMenuItem.Checked = false;
-                    hoursToolStripMenuItem.Checked = false;
-                    break;
-                case 3600:
-                    minutesToolStripMenuItem.Checked = false;
-                    hourToolStripMenuItem.Checked = true;
-                    hoursToolStripMenuItem.Checked = false;
-                    break;
-                case 7200:
-                    minutesToolStripMenuItem.Checked = false;
-                    hourToolStripMenuItem.Checked = false;
-                    hoursToolStripMenuItem.Checked = true;
-                    break;
-            }
-            conn.Close();
-            logNumberToolStripComboBox.Text = rowsValue.ToString();
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                checkString = "select * from settings where id =1;";
+                MySqlCommand command = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                rowsValue = reader.GetInt32("numberofrows");
+                delayValue = reader.GetInt32("delay");
+                switch (delayValue)
+                {
+                    case 1800:
+                        minutesToolStripMenuItem.Checked = true;
+                        hourToolStripMenuItem.Checked = false;
+                        hoursToolStripMenuItem.Checked = false;
+                        break;
+                    case 3600:
+                        minutesToolStripMenuItem.Checked = false;
+                        hourToolStripMenuItem.Checked = true;
+                        hoursToolStripMenuItem.Checked = false;
+                        break;
+                    case 7200:
+                        minutesToolStripMenuItem.Checked = false;
+                        hourToolStripMenuItem.Checked = false;
+                        hoursToolStripMenuItem.Checked = true;
+                        break;
+                }
+                conn.Close();
+                logNumberToolStripComboBox.Text = rowsValue.ToString();
 
-            conn.Open();
-            checkString = "select datecreated from sensorlog limit 1";
-            MySqlCommand command2 = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader2 = command2.ExecuteReader();
-            reader2.Read();
-            firstDate = reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy");
-            dateTimePickerStartDate.MinDate = DateTime.ParseExact(firstDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-            conn.Close();
+                conn.Open();
+                checkString = "select datecreated from sensorlog limit 1";
+                MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
+                reader2.Read();
+                firstDate = reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy");
+                dateTimePickerStartDate.MinDate = DateTime.ParseExact(firstDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("MySQL error, application will close, check MySQL!");
+                Close();
+            }
         }
 
 
@@ -746,22 +758,6 @@ namespace Sensordevice
             hoursToolStripMenuItem.Checked = true;
         }
 
-        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (controlDeviceToolStripMenuItem2.Text == "Stop Device")
-            {
-                setDevice = true;
-                controlDeviceToolStripMenuItem2.Text = "Start Device";
-                controlDevice();
-            }
-            else
-            {
-                setDevice = false;
-                controlDeviceToolStripMenuItem2.Text = "Stop Device";
-                controlDevice();
-            }
-        }
-
         private void restartDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             restartDevice();
@@ -799,6 +795,35 @@ namespace Sensordevice
         {
             FormModifyTable modifyTable = new FormModifyTable();
             modifyTable.ShowDialog();
+        }
+
+        private void listViewData_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+
+            if (lvwColumnSorter == null)
+            {
+                return;
+            }
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                else
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+            else
+            {
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            this.listViewData.Sort();
+        }
+
+        private void updateDeviceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormUpdatedevice updatedevice = new FormUpdatedevice();
+            updatedevice.ShowDialog();
         }
     }
 }

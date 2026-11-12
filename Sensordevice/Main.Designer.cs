@@ -54,7 +54,6 @@
             clearDatabaseToolStripMenuItem = new ToolStripMenuItem();
             modifyTableToolStripMenuItem = new ToolStripMenuItem();
             controlDeviceToolStripMenuItem = new ToolStripMenuItem();
-            controlDeviceToolStripMenuItem2 = new ToolStripMenuItem();
             restartDeviceToolStripMenuItem = new ToolStripMenuItem();
             shutdownDeviceToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
@@ -83,6 +82,7 @@
             toolStripStatusLabel2 = new ToolStripStatusLabel();
             toolStripStatusLabel3 = new ToolStripStatusLabel();
             statusStrip1 = new StatusStrip();
+            updateDeviceToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -269,29 +269,22 @@
             // 
             // controlDeviceToolStripMenuItem
             // 
-            controlDeviceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { controlDeviceToolStripMenuItem2, restartDeviceToolStripMenuItem, shutdownDeviceToolStripMenuItem });
+            controlDeviceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restartDeviceToolStripMenuItem, shutdownDeviceToolStripMenuItem, updateDeviceToolStripMenuItem });
             controlDeviceToolStripMenuItem.Name = "controlDeviceToolStripMenuItem";
             controlDeviceToolStripMenuItem.Size = new Size(180, 22);
             controlDeviceToolStripMenuItem.Text = "Control Device";
             // 
-            // controlDeviceToolStripMenuItem2
-            // 
-            controlDeviceToolStripMenuItem2.Name = "controlDeviceToolStripMenuItem2";
-            controlDeviceToolStripMenuItem2.Size = new Size(166, 22);
-            controlDeviceToolStripMenuItem2.Text = "Stop Device";
-            controlDeviceToolStripMenuItem2.Click += stopToolStripMenuItem_Click;
-            // 
             // restartDeviceToolStripMenuItem
             // 
             restartDeviceToolStripMenuItem.Name = "restartDeviceToolStripMenuItem";
-            restartDeviceToolStripMenuItem.Size = new Size(166, 22);
+            restartDeviceToolStripMenuItem.Size = new Size(180, 22);
             restartDeviceToolStripMenuItem.Text = "Restart Device";
             restartDeviceToolStripMenuItem.Click += restartDeviceToolStripMenuItem_Click;
             // 
             // shutdownDeviceToolStripMenuItem
             // 
             shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
-            shutdownDeviceToolStripMenuItem.Size = new Size(166, 22);
+            shutdownDeviceToolStripMenuItem.Size = new Size(180, 22);
             shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
             shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click_1;
             // 
@@ -306,7 +299,7 @@
             // 
             graphToolStripMenuItem.Enabled = false;
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(121, 22);
+            graphToolStripMenuItem.Size = new Size(180, 22);
             graphToolStripMenuItem.Text = "Graph";
             graphToolStripMenuItem.Click += graphToolStripMenuItem_Click;
             // 
@@ -314,7 +307,7 @@
             // 
             fontSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, mediumToolStripMenuItem, largeToolStripMenuItem });
             fontSizeToolStripMenuItem.Name = "fontSizeToolStripMenuItem";
-            fontSizeToolStripMenuItem.Size = new Size(121, 22);
+            fontSizeToolStripMenuItem.Size = new Size(180, 22);
             fontSizeToolStripMenuItem.Text = "Font Size";
             // 
             // smallToolStripMenuItem
@@ -343,7 +336,7 @@
             // logsToolStripMenuItem
             // 
             logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            logsToolStripMenuItem.Size = new Size(121, 22);
+            logsToolStripMenuItem.Size = new Size(180, 22);
             logsToolStripMenuItem.Text = "Logs";
             logsToolStripMenuItem.Click += logsToolStripMenuItem_Click;
             // 
@@ -371,6 +364,7 @@
             listViewData.TabIndex = 1;
             listViewData.UseCompatibleStateImageBehavior = false;
             listViewData.View = View.Details;
+            listViewData.ColumnClick += listViewData_ColumnClick;
             listViewData.SelectedIndexChanged += listViewData_SelectedIndexChanged;
             // 
             // columnHeaderTemp
@@ -401,7 +395,6 @@
             // 
             // dateTimePickerEndDate
             // 
-            dateTimePickerEndDate.Enabled = false;
             dateTimePickerEndDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             dateTimePickerEndDate.Format = DateTimePickerFormat.Custom;
             dateTimePickerEndDate.Location = new Point(143, 47);
@@ -488,6 +481,13 @@
             statusStrip1.TabIndex = 6;
             statusStrip1.Text = "statusStrip1";
             // 
+            // updateDeviceToolStripMenuItem
+            // 
+            updateDeviceToolStripMenuItem.Name = "updateDeviceToolStripMenuItem";
+            updateDeviceToolStripMenuItem.Size = new Size(180, 22);
+            updateDeviceToolStripMenuItem.Text = "Update Device";
+            updateDeviceToolStripMenuItem.Click += updateDeviceToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -566,7 +566,6 @@
         private ToolStripMenuItem hoursToolStripMenuItem;
         private ToolStripComboBox logNumberToolStripComboBox;
         private ToolStripMenuItem controlDeviceToolStripMenuItem;
-        private ToolStripMenuItem controlDeviceToolStripMenuItem2;
         private ToolStripMenuItem restartDeviceToolStripMenuItem;
         private ToolStripMenuItem shutdownDeviceToolStripMenuItem;
         private ToolStripMenuItem modifyTableToolStripMenuItem;
@@ -576,5 +575,6 @@
         private ToolStripStatusLabel toolStripStatusLabel2;
         private ToolStripStatusLabel toolStripStatusLabel3;
         private StatusStrip statusStrip1;
+        private ToolStripMenuItem updateDeviceToolStripMenuItem;
     }
 }

@@ -25,6 +25,7 @@
     <PackageReference Include="MySql.Data" Version="26.7.0" />
     <PackageReference Include="MySqlBackup.NET" Version="2.7.1" />
     <PackageReference Include="SSH.NET" Version="2026.0.0" />
+    <PackageReference Include="Syncfusion.Xamarin.DataSource" Version="30.2.4" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.10.2" />
   </ItemGroup>
 
@@ -58,10 +59,19 @@
     <None Update="Pictures\dht22.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Pictures\green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Pictures\raspberrypi5.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Pictures\red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Pictures\schema.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Pictures\yellow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Properties\Settings.settings">

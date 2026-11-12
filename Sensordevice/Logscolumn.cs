@@ -20,7 +20,7 @@ namespace Sensordevice
             InitializeComponent();
         }
         MySqlConnection conn = new MySqlConnection(FormMain.connString);
-        int itemCount = 0;
+        int itemCount = 0, indexStatus = 0, setColor2;
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
@@ -29,23 +29,19 @@ namespace Sensordevice
         private void Logscolumn_Load(object sender, EventArgs e)
         {
             labelHead.Text = FormViewgraph.setColumn;
-
-            switch(FormViewgraph.setColor)
+            MySqlConnection conn = new MySqlConnection(FormMain.connString);
+            switch (FormViewgraph.setColor)
             {
-                case 1:
+                case 0:
                     listViewColumn.ForeColor = Color.Green;
                     break;
-                case 2:
+                case 1:
                     listViewColumn.ForeColor = Color.Yellow;
                     break;
-                case 3:
+                case 2:
                     listViewColumn.ForeColor = Color.Red;
                     break;
-                case 4:
-                    listViewColumn.ForeColor = Color.Blue;
-                    break;
             }
-
 
             try
             {
@@ -55,8 +51,38 @@ namespace Sensordevice
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    listViewColumn.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetString("comment").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                    setColor2 = reader.GetInt32("infocode");
+                    if (FormViewgraph.setColor == 3)
+                    {
+
+                        setColor2 = reader.GetInt32("infocode");
+                        if (setColor2 == 0)
+                        {
+
+                            listViewColumn.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                            listViewColumn.Items[indexStatus].ForeColor = Color.Green;
+                        }
+                        else if (setColor2 == 1)
+                        {
+
+                            listViewColumn.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                            listViewColumn.Items[indexStatus].ForeColor = Color.Yellow;
+                        }
+                        else if (setColor2 == 2)
+                        {
+                            listViewColumn.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                            listViewColumn.Items[indexStatus].ForeColor = Color.Red;
+                        }
+                        indexStatus++;
+
+                    }
+
+                    else
+                    {
+                        listViewColumn.Items.Add(new ListViewItem(new string[] { reader.GetString("logtext").ToString(), reader.GetInt32("infocode").ToString(), reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                    }
                     itemCount++;
+
 
                 }
                 conn.Close();

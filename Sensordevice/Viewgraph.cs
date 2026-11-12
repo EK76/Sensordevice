@@ -29,16 +29,18 @@ namespace CameraDevice
         List<int> topicCounts = new List<int>();
         int dateNumbers, topicNumbers, count, checkCount, index, index2, point = 0, choice = 1;
         string checkString, showColumn;
-
+        MySqlConnection conn = new MySqlConnection(FormMain.connString);
         bool openForm = false;
         public static string setString, setColumn;
         public static int setColor;
+
+        bool showStatus = false;
         void dateView()
         {
-            this.Size = new Size(835, 620);
-            listBoxShowTopics.Visible = false;
+            chartView.Series[0].ChartType = SeriesChartType.Column;
+            buttonShowStatus.Text = "View as pie";
+            showStatus = true;
             chartView.Series[0].Points.Clear();
-            MySqlConnection conn = new MySqlConnection(FormMain.connString);
             dateNumbers = FormLogs.listDates.Count;
             dateCounts.Clear();
 
@@ -70,13 +72,9 @@ namespace CameraDevice
 
         void topicView()
         {
-            this.Size = new Size(1085, 620);
-            listBoxShowTopics.Visible = true;
             chartView.Series[0].Points.Clear();
-            MySqlConnection conn = new MySqlConnection(FormMain.connString);
             topicNumbers = FormLogs.listTopics.Count;
             topicCounts.Clear();
-
             for (int index = 0; index < topicNumbers; index++)
             {
                 conn.Open();
@@ -97,15 +95,16 @@ namespace CameraDevice
                 chartView.Series[0].Points[index].Label = addValue.ToString();
                 chartView.ChartAreas[0].AxisX.Interval = 1;
                 chartView.Series[0].Points[index].AxisLabel = index2.ToString();
-                if (index == 0)
+                chartView.Series[0].Points[index].AxisLabel = FormLogs.listTopics[index];
+                if (FormLogs.listTopics[index] == "0")
                 {
                     chartView.Series[0].Points[index].Color = Color.Green;
                 }
-                if (index == 1)
+                if (FormLogs.listTopics[index] == "1")
                 {
                     chartView.Series[0].Points[index].Color = Color.Yellow;
                 }
-                if (index == 2)
+                if (FormLogs.listTopics[index] == "2")
                 {
                     chartView.Series[0].Points[index].Color = Color.Red;
                 }
@@ -129,6 +128,7 @@ namespace CameraDevice
             if (radioButtonShowDates.Checked)
             {
                 dateView();
+                buttonShowStatus.Visible = false;
             }
         }
 
@@ -137,23 +137,24 @@ namespace CameraDevice
             if (radioButtonShowTopics.Checked)
             {
                 topicView();
+                buttonShowStatus.Visible = true;
             }
         }
 
         private void chartView_GetToolTipText(object sender, ToolTipEventArgs e)
         {
             string setValue = "";
-            ;
+
             if (choice == 1)
             {
                 if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
                 {
                     var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-                    setValue = string.Format("{0}", FormLogs.listDates[(int)dataPoint.XValue -1], dataPoint.YValues[0]);
+                    setValue = string.Format("{0}", FormLogs.listDates[(int)dataPoint.XValue - 1], dataPoint.YValues[0]);
                     setString = "select * from loginfo where datecreated like '" + setValue + "%';";
                     setColumn = "Date " + setValue + "is selected";
                     openForm = true;
-                    setColor = 4;
+                    setColor = 3;
                 }
                 else
                 {
@@ -164,10 +165,14 @@ namespace CameraDevice
             {
                 if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
                 {
-                    var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-                    setValue = string.Format("{0}", dataPoint.XValue, dataPoint.YValues[0]);
-                    setString = "select * from loginfo where infocode = '" + (Convert.ToInt32(setValue) - 1) + "';";
-                    setColumn = "Infocode " + (Convert.ToInt32(setValue) - 1) + " is selected";
+                    HitTestResult result = chartView.HitTest(e.X, e.Y);
+                    if (result.PointIndex >= 0)
+                    {
+                        setValue = chartView.Series[0].Points[result.PointIndex].AxisLabel;
+
+                    }
+                    setString = "select * from loginfo where infocode = '" + (Convert.ToInt32(setValue)) + "';";
+                    setColumn = "Infocode " + (Convert.ToInt32(setValue)) + " is selected";
                     setColor = Convert.ToInt32(setValue);
                     openForm = true;
                 }
@@ -185,6 +190,23 @@ namespace CameraDevice
                 FormLogscolumn logsColumn = new FormLogscolumn();
                 logsColumn.ShowDialog();
             }
+        }
+
+        private void buttonShowStatus_Click(object sender, EventArgs e)
+        {
+           if (showStatus)
+           {
+              chartView.Series[0].ChartType = SeriesChartType.Pie;
+              buttonShowStatus.Text = "View as column";
+              showStatus = false;
+           }
+           else
+           {
+              chartView.Series[0].ChartType = SeriesChartType.Column;
+              buttonShowStatus.Text = "View as pie";
+              showStatus= true;
+              index = 0;
+           }
         }
     }
 

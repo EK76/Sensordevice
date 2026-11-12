@@ -1,9 +1,12 @@
-﻿using Google.Protobuf;
+﻿using CameraDevice;
+using Google.Protobuf;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
 using Mysqlx.Session;
 using MySqlX.XDevAPI.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +14,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,10 +31,97 @@ namespace Sensordevice
         }
 
         int addPoint, point = 0;
-        string addNewValue;
+        string addNewValue, addFormatDate2, checkString;
+        DateTime addFormatDate;
         decimal convertValue;
         List<decimal> listSum = new List<decimal>();
         List<decimal> listSum2 = new List<decimal>();
+        List<string> newListTemp = new List<string>();
+        List<string> newListHum = new List<string>();
+        List<string> newListDate = new List<string>();
+        HashSet<string> listDates = new HashSet<string>();
+        bool setDate = false;
+        MySqlConnection conn = new MySqlConnection(FormMain.connString);
+
+        void allDates()
+        {
+            chartTemp.Series[0].Points.Clear();
+            chartHum.Series[0].Points.Clear();
+            chartTemp.Update();
+            try
+            {
+                chartTemp.Update();
+                chartTemp.Series[0].LegendText = "Temperature";
+                chartTemp.ChartAreas[0].AxisY.Title = "Celsius";
+                chartTemp.ChartAreas[0].AxisY.Minimum = -40;
+                chartTemp.ChartAreas[0].AxisY.Maximum = 40;
+                chartTemp.ChartAreas[0].AxisY.Interval = 10;
+                chartTemp.ChartAreas[0].AxisY.MinorGrid.Interval = chartTemp.ChartAreas[0].AxisY.Interval / 2;
+                chartTemp.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
+                addPoint = 0;
+
+                foreach (var addValue in FormMain.listTemp)
+                {
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
+
+                    chartTemp.Series[0].Points.AddXY(addPoint, convertValue);
+                    listSum.Add(convertValue);
+                    addPoint++;
+                }
+            }
+
+            catch (Exception message)
+            {
+                MessageBox.Show(message.ToString());
+            }
+
+     
+
+            chartHum.Update();
+            try
+            {
+                chartHum.Update();
+                chartHum.Series[0].LegendText = "Humidity";
+                chartHum.ChartAreas[0].AxisY.Title = "%";
+                chartHum.ChartAreas[0].AxisY.Minimum = 0;
+                chartHum.ChartAreas[0].AxisY.Maximum = 100;
+                chartHum.ChartAreas[0].AxisY.Interval = 10;
+                chartHum.ChartAreas[0].AxisY.MinorGrid.Interval = chartHum.ChartAreas[0].AxisY.Interval / 2;
+                chartHum.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
+                addPoint = 0;
+
+                foreach (var addValue in FormMain.listHum)
+                {
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
+
+                    chartHum.Series[0].Points.AddXY(addPoint, convertValue);
+                    listSum2.Add(convertValue);
+                    addPoint++;
+                }
+            }
+            catch (Exception message)
+            {
+                MessageBox.Show(message.ToString());
+            }
+            labelRows.Text = "Number of rows: " + addPoint;
+            labelMedium.Text = "Medium value: " + Math.Round(listSum.Average(), 1) + " °C " + Math.Round(listSum2.Average(), 1) + " %";
+            labelMin.Text = "Min value: " + listSum.Min() + " °C " + listSum2.Min() + " %";
+            labelMax.Text = "Max value: " + listSum.Max() + " °C " + listSum2.Min() + " %";
+            labelStartDate.Text = "Start date " + FormMain.listDate.First();
+            labelEndDate.Text = "End date " + FormMain.listDate.Last();
+        }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -126,88 +217,26 @@ namespace Sensordevice
 
         private void FormGraph_Load(object sender, EventArgs e)
         {
-            chartTemp.Update();
-            try
-            {
-                chartTemp.Update();
-                chartTemp.Series[0].LegendText = "Temperature";
-                chartTemp.ChartAreas[0].AxisY.Title = "Celsius";
-                chartTemp.ChartAreas[0].AxisY.Minimum = -40;
-                chartTemp.ChartAreas[0].AxisY.Maximum = 40;
-                chartTemp.ChartAreas[0].AxisY.Interval = 10;
-                chartTemp.ChartAreas[0].AxisY.MinorGrid.Interval = chartTemp.ChartAreas[0].AxisY.Interval / 2;
-                chartTemp.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
-                addPoint = -1;
-
-                foreach (var addValue in FormMain.listTemp)
-                {
-                    addPoint++;
-
-                    addNewValue = addValue;
-                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                    foreach (var rc in removeChars)
-                    {
-                        addNewValue = addNewValue.Replace(rc, string.Empty);
-                    }
-                    convertValue = decimal.Parse(addNewValue);
-
-                    chartTemp.Series[0].Points.AddXY(addPoint, convertValue);
-                    listSum.Add(convertValue);
-                }
-
-            }
-
-            catch (Exception message)
-            {
-                MessageBox.Show(message.ToString());
-            }
-
             Title showTemp = chartTemp.Titles.Add("Humidity");
             showTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
-
-            chartHum.Update();
-            try
-            {
-                chartHum.Update();
-                chartHum.Series[0].LegendText = "Humidity";
-                chartHum.ChartAreas[0].AxisY.Title = "%";
-                chartHum.ChartAreas[0].AxisY.Minimum = 0;
-                chartHum.ChartAreas[0].AxisY.Maximum = 100;
-                chartHum.ChartAreas[0].AxisY.Interval = 10;
-                chartHum.ChartAreas[0].AxisY.MinorGrid.Interval = chartHum.ChartAreas[0].AxisY.Interval / 2;
-                chartHum.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
-                addPoint = -1;
-
-                foreach (var addValue in FormMain.listHum)
-                {
-                    addPoint++;
-
-                    addNewValue = addValue;
-                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                    foreach (var rc in removeChars)
-                    {
-                        addNewValue = addNewValue.Replace(rc, string.Empty);
-                    }
-                    convertValue = decimal.Parse(addNewValue);
-
-                    chartHum.Series[0].Points.AddXY(addPoint, convertValue);
-                    listSum2.Add(convertValue);
-                }
-
-            }
-            catch (Exception message)
-            {
-                MessageBox.Show(message.ToString());
-            }
-
             Title showHum = chartHum.Titles.Add("Temperature");
             showHum.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
 
-            labelMedium.Text = "Medium value: " + Math.Round(listSum.Average(), 1) + " °C " + Math.Round(listSum2.Average(), 1) + " %";
-            labelMin.Text = "Min value: " + listSum.Min() + " °C " + listSum2.Min() + " %";
-            labelMax.Text = "Max value: " + listSum.Max() + " °C " + listSum2.Min() + " %";
-            labelStartDate.Text = "Start date " + FormMain.listDate.First();
-            labelEndDate.Text = "End date " + FormMain.listDate.Last();
+            allDates();
+            addPoint = 0;
+      
+
+            foreach (var addValue in FormMain.listDate)
+            {
+                if (DateTime.TryParse(addValue.ToString(), out addFormatDate))
+                {
+                    addFormatDate2 = addFormatDate.ToString("yyyy-MM-dd");
+                    if (listDates.Add(addFormatDate2))
+                    {
+                        toolStripComboBoxChosenDay.Items.Add(addFormatDate2);
+                    }
+                }
+            }
         }
 
         private void noneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -228,8 +257,16 @@ namespace Sensordevice
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                 point = showValue.PointIndex;
-                e.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                labelInfo.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                if (setDate == true)
+                {
+                    e.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", newListDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                    labelInfo.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", newListDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                }
+                else
+                {
+                    e.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                    labelInfo.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                }
             }
             else
             {
@@ -245,8 +282,16 @@ namespace Sensordevice
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                 point = showValue.PointIndex;
-                e.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                labelInfo.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                if (setDate == true)
+                {
+                   e.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", newListDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                   labelInfo.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", newListDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                }
+                else
+                {
+                   e.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                   labelInfo.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                }
             }
             else
             {
@@ -275,7 +320,6 @@ namespace Sensordevice
                 Clipboard.SetImage(chartImage);
             }
             MessageBox.Show("Humitidy chart diagram copied!");
-
         }
 
         private void temperatureToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -302,7 +346,6 @@ namespace Sensordevice
                         {
                             chartTemp.SaveImage(saveFileDialog.FileName, ChartImageFormat.Png);
                         }
-
                     }
                     else
                     {
@@ -312,7 +355,6 @@ namespace Sensordevice
                 catch (Exception d)
                 {
                     MessageBox.Show(d.Message);
-
                 }
             }
         }
@@ -398,6 +440,115 @@ namespace Sensordevice
             smallToolStripMenuItem.Checked = true;
             mediumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
+        }
+
+        private void toolStripComboBoxChosenDay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chartTemp.Series[0].Points.Clear();
+            chartHum.Series[0].Points.Clear();
+            newListTemp.Clear();
+            newListHum.Clear();
+            newListDate.Clear();
+            listSum.Clear();
+            listSum2.Clear();
+            refreshToolStripMenuItem.Enabled = true;
+            setDate = true;
+
+            DateTime convertDate = DateTime.Parse(toolStripComboBoxChosenDay.SelectedItem.ToString());
+            labelStartDate.Text = "Choosen date " + convertDate.ToString("dd.MM.yyyy");
+            labelEndDate.Visible = false;
+            conn.Open();
+            checkString = "select * from sensorlog where datecreated like '" + toolStripComboBoxChosenDay.SelectedItem.ToString() + "%'";
+            Clipboard.SetText(checkString);
+            MySqlCommand command = new MySqlCommand(checkString, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                newListTemp.Add(reader.GetDecimal("temp").ToString());
+                newListHum.Add(reader.GetDecimal("hum").ToString());
+                newListDate.Add(reader.GetDateTime("datecreated").ToString("dd.MM.yyyy HH:mm"));
+            }
+
+            conn.Close();
+            chartTemp.Update();
+            try
+            {
+                chartTemp.Update();
+                chartTemp.Series[0].LegendText = "Temperature";
+                chartTemp.ChartAreas[0].AxisY.Title = "Celsius";
+                chartTemp.ChartAreas[0].AxisY.Minimum = -40;
+                chartTemp.ChartAreas[0].AxisY.Maximum = 40;
+                chartTemp.ChartAreas[0].AxisY.Interval = 10;
+                chartTemp.ChartAreas[0].AxisY.MinorGrid.Interval = chartTemp.ChartAreas[0].AxisY.Interval / 2;
+                chartTemp.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
+                addPoint = 0;
+
+                foreach (var addValue in newListTemp)
+                {
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
+
+                    chartTemp.Series[0].Points.AddXY(addPoint, convertValue);
+                    listSum.Add(convertValue);
+                    addPoint++;
+                }
+            }
+
+            catch (Exception message)
+            {
+                MessageBox.Show(message.ToString());
+            }
+
+            chartHum.Update();
+            try
+            {
+                chartHum.Update();
+                chartHum.Series[0].LegendText = "Humidity";
+                chartHum.ChartAreas[0].AxisY.Title = "%";
+                chartHum.ChartAreas[0].AxisY.Minimum = 0;
+                chartHum.ChartAreas[0].AxisY.Maximum = 100;
+                chartHum.ChartAreas[0].AxisY.Interval = 10;
+                chartHum.ChartAreas[0].AxisY.MinorGrid.Interval = chartHum.ChartAreas[0].AxisY.Interval / 2;
+                chartHum.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
+                addPoint = 0;
+
+                foreach (var addValue in newListHum)
+                {
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
+
+                    chartHum.Series[0].Points.AddXY(addPoint, convertValue);
+                    listSum2.Add(convertValue);
+                    addPoint++;
+                }
+            }
+            catch (Exception message)
+            {
+                MessageBox.Show(message.ToString());
+            }
+
+            labelRows.Text = "Number of rows: " + addPoint;
+            labelMedium.Text = "Medium value: " + Math.Round(listSum.Average(), 1) + " °C " + Math.Round(listSum2.Average(), 1) + " %";
+            labelMin.Text = "Min value: " + listSum.Min() + " °C " + listSum2.Min() + " %";
+            labelMax.Text = "Max value: " + listSum.Max() + " °C " + listSum2.Min() + " %";
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            refreshToolStripMenuItem.Enabled = false;
+            setDate = false;
+            allDates();
         }
     }
 }

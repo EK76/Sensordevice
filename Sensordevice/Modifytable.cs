@@ -27,7 +27,7 @@ namespace Sensordevice
         public static bool checkOnce = false;
         DateTime startDate, endDate, currentDate2;
         void showTable()
-        {  
+        {
 
             counterItems = 0;
             conn.Open();
@@ -76,6 +76,10 @@ namespace Sensordevice
         private void allItemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showTable();
+            deleteRowsToolStripMenuItem.Enabled = false;
+            modifyRowToolStripMenuItem.Enabled = false;
+            deleteRowsToolStripMenuItem2.Enabled = false;
+            modifyRowToolStripMenuItem2.Enabled = false;
         }
 
         private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
@@ -111,6 +115,10 @@ namespace Sensordevice
                     listViewTable.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("id").ToString(), reader.GetDecimal("temp").ToString() + " °C", reader.GetDecimal("hum").ToString() + " %", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
+                deleteRowsToolStripMenuItem.Enabled = false;
+                modifyRowToolStripMenuItem.Enabled = false;
+                deleteRowsToolStripMenuItem2.Enabled = false;
+                modifyRowToolStripMenuItem2.Enabled = false;
             }
             catch (Exception i)
             {
@@ -144,18 +152,22 @@ namespace Sensordevice
             if (listViewTable.SelectedItems.Count == 1)
             {
                 modifyRowToolStripMenuItem.Enabled = true;
+                modifyRowToolStripMenuItem2.Enabled = true;
             }
             else
             {
                 modifyRowToolStripMenuItem.Enabled = false;
+                modifyRowToolStripMenuItem2.Enabled = false;
             }
             if (listViewTable.SelectedItems.Count >= 1)
             {
                 deleteRowsToolStripMenuItem.Enabled = true;
+                deleteRowsToolStripMenuItem2.Enabled = true;
             }
             else
             {
                 deleteRowsToolStripMenuItem.Enabled = false;
+                deleteRowsToolStripMenuItem2.Enabled = false;
             }
         }
 
@@ -169,6 +181,57 @@ namespace Sensordevice
         }
 
         private void deleteRowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete the selected rows?", "Sensor Device", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+
+
+                foreach (ListViewItem item in listViewTable.SelectedItems)
+                {
+                    if (item.Selected)
+                    {
+                        deleteRows.Add(int.Parse(item.SubItems[0].Text));
+                    }
+                }
+
+                foreach (int item2 in deleteRows)
+                {
+                    try
+                    {
+                        conn.Open();
+                        checkString = "delete from sensorlog where id = " + item2;
+                        MySqlCommand command = new MySqlCommand(checkString, conn);
+                        MySqlDataReader reader = command.ExecuteReader();
+                        conn.Close();
+                    }
+                    catch (Exception i)
+                    {
+                        MessageBox.Show(i.Message);
+                    }
+                }
+                showTable();
+                deleteRows.Clear();
+            }
+        }
+
+        private void listViewTable_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void modifyRowToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            ModifyRow modifyRow = new ModifyRow();
+            modifyRow.ShowDialog();
+        }
+
+        private void deleteRowsToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete the selected rows?", "Sensor Device", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)

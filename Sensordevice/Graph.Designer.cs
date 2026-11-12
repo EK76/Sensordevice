@@ -58,6 +58,10 @@
             markerColorToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             defaultToolStripMenuItem = new ToolStripMenuItem();
+            viewToolStripMenuItem = new ToolStripMenuItem();
+            intervalChosenDayToolStripMenuItem = new ToolStripMenuItem();
+            toolStripComboBoxChosenDay = new ToolStripComboBox();
+            refreshToolStripMenuItem = new ToolStripMenuItem();
             panelInfo = new Panel();
             labelInfo = new Label();
             labelMax = new Label();
@@ -71,6 +75,7 @@
             trackBarMarkerSize = new TrackBar();
             labelTrackSize = new Label();
             toolTipTrackSize = new ToolTip(components);
+            labelRows = new Label();
             menuStrip1.SuspendLayout();
             panelInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chartTemp).BeginInit();
@@ -80,7 +85,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(2904, 24);
@@ -242,9 +247,38 @@
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
             // 
+            // viewToolStripMenuItem
+            // 
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { intervalChosenDayToolStripMenuItem, refreshToolStripMenuItem });
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new Size(44, 20);
+            viewToolStripMenuItem.Text = "View";
+            // 
+            // intervalChosenDayToolStripMenuItem
+            // 
+            intervalChosenDayToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripComboBoxChosenDay });
+            intervalChosenDayToolStripMenuItem.Name = "intervalChosenDayToolStripMenuItem";
+            intervalChosenDayToolStripMenuItem.Size = new Size(180, 22);
+            intervalChosenDayToolStripMenuItem.Text = "Interval Chosen Day";
+            // 
+            // toolStripComboBoxChosenDay
+            // 
+            toolStripComboBoxChosenDay.Name = "toolStripComboBoxChosenDay";
+            toolStripComboBoxChosenDay.Size = new Size(121, 23);
+            toolStripComboBoxChosenDay.SelectedIndexChanged += toolStripComboBoxChosenDay_SelectedIndexChanged;
+            // 
+            // refreshToolStripMenuItem
+            // 
+            refreshToolStripMenuItem.Enabled = false;
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.Size = new Size(180, 22);
+            refreshToolStripMenuItem.Text = "Refresh";
+            refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
+            // 
             // panelInfo
             // 
             panelInfo.BorderStyle = BorderStyle.Fixed3D;
+            panelInfo.Controls.Add(labelRows);
             panelInfo.Controls.Add(labelInfo);
             panelInfo.Controls.Add(labelMax);
             panelInfo.Controls.Add(labelMedium);
@@ -253,7 +287,7 @@
             panelInfo.Controls.Add(labelStartDate);
             panelInfo.Location = new Point(2562, 53);
             panelInfo.Name = "panelInfo";
-            panelInfo.Size = new Size(312, 315);
+            panelInfo.Size = new Size(312, 394);
             panelInfo.TabIndex = 1;
             // 
             // labelInfo
@@ -385,6 +419,16 @@
             labelTrackSize.TabIndex = 5;
             labelTrackSize.Text = "Marker size: 10";
             // 
+            // labelRows
+            // 
+            labelRows.AutoSize = true;
+            labelRows.Font = new Font("Segoe UI", 12F);
+            labelRows.Location = new Point(7, 360);
+            labelRows.Name = "labelRows";
+            labelRows.Size = new Size(52, 21);
+            labelRows.TabIndex = 6;
+            labelRows.Text = "label1";
+            // 
             // FormGraph
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -454,5 +498,10 @@
         private ToolStripMenuItem smallToolStripMenuItem;
         private ToolStripMenuItem mediumToolStripMenuItem;
         private ToolStripMenuItem largeToolStripMenuItem;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem intervalChosenDayToolStripMenuItem;
+        private ToolStripComboBox toolStripComboBoxChosenDay;
+        private ToolStripMenuItem refreshToolStripMenuItem;
+        private Label labelRows;
     }
 }

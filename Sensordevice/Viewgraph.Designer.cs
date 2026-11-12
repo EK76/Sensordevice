@@ -34,7 +34,7 @@
             chartView = new System.Windows.Forms.DataVisualization.Charting.Chart();
             radioButtonShowDates = new RadioButton();
             radioButtonShowTopics = new RadioButton();
-            listBoxShowTopics = new ListBox();
+            buttonShowStatus = new Button();
             ((System.ComponentModel.ISupportInitialize)chartView).BeginInit();
             SuspendLayout();
             // 
@@ -58,7 +58,7 @@
             series1.Name = "Series1";
             series1.YValuesPerPoint = 2;
             chartView.Series.Add(series1);
-            chartView.Size = new Size(795, 484);
+            chartView.Size = new Size(845, 484);
             chartView.TabIndex = 1;
             chartView.Text = "chart1";
             chartView.GetToolTipText += chartView_GetToolTipText;
@@ -90,23 +90,24 @@
             radioButtonShowTopics.UseVisualStyleBackColor = true;
             radioButtonShowTopics.CheckedChanged += radioButtonShowTopics_CheckedChanged;
             // 
-            // listBoxShowTopics
+            // buttonShowStatus
             // 
-            listBoxShowTopics.BackColor = SystemColors.Control;
-            listBoxShowTopics.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            listBoxShowTopics.FormattingEnabled = true;
-            listBoxShowTopics.Items.AddRange(new object[] { "1 = Information", "2 = Warning", "3 = Error" });
-            listBoxShowTopics.Location = new Point(813, 43);
-            listBoxShowTopics.Name = "listBoxShowTopics";
-            listBoxShowTopics.Size = new Size(250, 480);
-            listBoxShowTopics.TabIndex = 4;
+            buttonShowStatus.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            buttonShowStatus.Location = new Point(639, 11);
+            buttonShowStatus.Name = "buttonShowStatus";
+            buttonShowStatus.Size = new Size(135, 23);
+            buttonShowStatus.TabIndex = 4;
+            buttonShowStatus.Text = "Show as pie";
+            buttonShowStatus.UseVisualStyleBackColor = true;
+            buttonShowStatus.Visible = false;
+            buttonShowStatus.Click += buttonShowStatus_Click;
             // 
             // FormViewgraph
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1069, 541);
-            Controls.Add(listBoxShowTopics);
+            ClientSize = new Size(869, 541);
+            Controls.Add(buttonShowStatus);
             Controls.Add(radioButtonShowTopics);
             Controls.Add(radioButtonShowDates);
             Controls.Add(chartView);
@@ -127,6 +128,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartView;
         private RadioButton radioButtonShowDates;
         private RadioButton radioButtonShowTopics;
-        private ListBox listBoxShowTopics;
+        private Button buttonShowStatus;
     }
 }
